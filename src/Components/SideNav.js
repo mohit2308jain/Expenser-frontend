@@ -1,7 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+const handleLogout = (event) => {
+  event.preventDefault();
+  window.location = '/';
+}
+
 const SideNav = () => {
+
     return(
         <nav className="navbar">
             <ul className="navbar-nav">
@@ -34,10 +40,10 @@ const SideNav = () => {
               </li>
         
               <li className="nav-item">
-                <a href="#" className="nav-link">
+                <div onClick={(e) => handleLogout(e)} className="nav-link">
                     <i className="fa fa-sign-out" />
                 <span className="link-text">Logout</span>
-                </a>
+                </div>
               </li>
             </ul>
           </nav>

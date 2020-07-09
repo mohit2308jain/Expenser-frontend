@@ -5,11 +5,12 @@ import Login from './Components/Login';
 class App extends React.Component {
 
   state = {
-    isLoggedIn: false
+    isLoggedIn: false,
+    user : {}
   }
 
   LoggedIn = (user) => {
-    this.setState({isLoggedIn: true})
+    this.setState({isLoggedIn: true, user: user})
   }
 
   render(){
@@ -20,7 +21,7 @@ class App extends React.Component {
     }
     else{
       return(
-        <Main />
+        <Main user={this.state.user}/>
       )
     }
   }

@@ -8,6 +8,7 @@ import SideNav from './SideNav';
 class Main extends React.Component{
 
     render(){
+        console.log(this.props.user)
         return(
             <BrowserRouter>
             <SideNav />

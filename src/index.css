@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,600,400italic);
+
 :root{
   font-size: 16px !important;
   font-family: 'Open Sans' !important;
@@ -125,19 +127,19 @@ main{
 
 @media only screen and (min-width: 600px){
   .navbar{
-      top: 0 !important;
-      width: 5rem !important;
-      height: 100vh !important;
-      z-index: 1;
+    top: 0 !important;
+    width: 5rem !important;
+    height: 100vh !important;
+    z-index: 1;
   }
 
   .navbar:hover {
-      width: 16rem !important;
+    width: 16rem !important;
   }
 
   .navbar:hover .link-text{
-      display: block !important;
-      width: 10rem;
+    display: block !important;
+    width: 10rem;
   }
 
   .nav-link:hover{
