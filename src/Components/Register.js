@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import baseURL from '../Redux/baseUrl';
 import './login.css';
 
 class Register extends React.Component{
@@ -7,15 +7,30 @@ class Register extends React.Component{
     state = {
         name: '',
         email: '',
-        password: ''
+        password: '',
+        registerError: false
     }
 
-    onRegister = (event) => {
+    onRegister = async(event) => {
         event.preventDefault();
 
+        try{
+            await baseURL.post('/register', {
+                name: this.state.name,
+                email: this.state.email,
+                password: this.state.password
+            })
+            this.props.onRegister();
+        }
+        catch(err){
+            this.setState({registerError: true})
+            console.log(err);
+        }
+
+        /*
         axios({
             method: 'post',
-            url: 'https://expenser-backend.herokuapp.com/register',
+            url: 'http://localhost:3001/register',
             data: {
                 name: this.state.name,
                 email: this.state.email,
@@ -26,6 +41,7 @@ class Register extends React.Component{
             this.props.onRegister();
         })
         .catch((err) => console.log(err))
+        */
     }
 
     handleEmail = (event) => {
@@ -41,10 +57,8 @@ class Register extends React.Component{
     }
 
     render(){
-        return(
-            <React.Fragment>
-                <div className="container">  
-                <form id="contact" action="" method="post">
+        const form = (
+            <form id="contact" action="" method="post">
                     <h3>Sign Up</h3>
                     <fieldset>
                     <input placeholder="Your name" type="text" required onChange={(e) => this.handleName(e)}/>
@@ -59,7 +73,19 @@ class Register extends React.Component{
                     <button name="submit" type="submit" id="contact-submit"  onClick={(event) => this.onRegister(event)}>Register</button>
                     </fieldset>
                 </form>
-                </div>
+        )
+
+        return(
+            <React.Fragment> 
+                {(this.state.registerError) ? (
+                    <div className="container"> 
+                    <h1>Error In Resistration..</h1>
+                    {form}
+                    </div>) : 
+                    (<div className="container"> 
+                        {form}
+                    </div>)
+                }
             </React.Fragment>
         )
     }

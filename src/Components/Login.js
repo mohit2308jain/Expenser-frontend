@@ -1,30 +1,30 @@
 import React from 'react';
-import axios from 'axios';
 import './login.css';
 import Register from './Register';
+import baseURL from '../Redux/baseUrl';
+
 class Login extends React.Component{
     state = {
         register: false,
         email: '',
-        password: ''
+        password: '',
+        loginError: false
     }
 
-    onLogin = (event) => {
+    onLogin = async(event) => {
         event.preventDefault();
 
-        axios({
-            method: 'post',
-            url: 'https://expenser-backend.herokuapp.com/signin',
-            data: {
+        try{
+            const resp = await baseURL.post('/signin', {
                 email: this.state.email,
                 password: this.state.password
-            }
-        })
-        .then((res) => {
-            console.log(res)
-            this.props.onLogin(res.data);
-        })
-        .catch((err) => console.log(err))
+            })
+            this.props.onLogin(resp.data);
+        }
+        catch(err){
+            this.setState({loginError: true})
+            console.log(err);
+        }
     }
 
     showRegisterForm = (event) => {
@@ -44,28 +44,35 @@ class Login extends React.Component{
     }
 
     render(){
+        const form = (
+            <form id="contact" action="" method="post">
+                <h3>Sign In</h3>
+                <fieldset>
+                    <input placeholder="Your Email Address" type="email" required onChange={(e) => this.handleEmail(e)} />
+                </fieldset>
+                <fieldset>
+                    <input placeholder="Your Password" type="password" required onChange={(e) => this.handlePassword(e)} />
+                </fieldset>
+                <fieldset>
+                    <button name="submit" type="submit" onClick={(event) => this.onLogin(event)}>Login</button>
+                </fieldset>
+                <fieldset>
+                    <button name="submit" type="button" onClick={(event) => this.showRegisterForm(event)}>Register</button>
+                </fieldset>
+            </form>
+        )
         return(
             <React.Fragment>
-                {(this.state.register) ? <Register onRegister={(event) => this.handleRegister(event)} /> : (
-                    <div className="container">  
-                    <form id="contact" action="" method="post">
-                        <h3>Sign In</h3>
-                        <fieldset>
-                            <input placeholder="Your Email Address" type="email" required onChange={(e) => this.handleEmail(e)} />
-                        </fieldset>
-                        <fieldset>
-                            <input placeholder="Your Password" type="password" required onChange={(e) => this.handlePassword(e)} />
-                        </fieldset>
-                        <fieldset>
-                            <button name="submit" type="submit" onClick={(event) => this.onLogin(event)}>Login</button>
-                        </fieldset>
-                        <fieldset>
-                            <button name="submit" type="button" onClick={(event) => this.showRegisterForm(event)}>Register</button>
-                        </fieldset>
-                    </form>
-                    </div>
-             
-                )
+                {(this.state.register) ? <Register onRegister={(event) => this.handleRegister(event)} /> : 
+                    ((this.state.loginError) ? 
+                        (<div className="container"> 
+                            <h1>Error In Login..</h1>
+                            {form}
+                        </div>) : 
+                        (<div className="container"> 
+                            {form}
+                        </div>)    
+                    )
                 }
                 </React.Fragment>
         )
