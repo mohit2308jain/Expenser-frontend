@@ -14,7 +14,7 @@ class Login extends React.Component{
 
         axios({
             method: 'post',
-            url: 'https://https://expenser-backend.herokuapp.com/signin',
+            url: 'https://expenser-backend.herokuapp.com/signin',
             data: {
                 email: this.state.email,
                 password: this.state.password

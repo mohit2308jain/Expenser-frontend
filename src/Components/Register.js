@@ -15,7 +15,7 @@ class Register extends React.Component{
 
         axios({
             method: 'post',
-            url: 'https://https://expenser-backend.herokuapp.com/register',
+            url: 'https://expenser-backend.herokuapp.com/register',
             data: {
                 name: this.state.name,
                 email: this.state.email,
