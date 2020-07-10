@@ -16,7 +16,7 @@ class Main extends React.Component{
             <Switch>
                 <Route exact path='/expenses' component={() => <ExpenseList user={this.props.user}/>} />
                 <Route exact path='/stats' component={() => <Stats user={this.props.user}/>} />
-                <Route exact path='/profile' component={() => <Profile user={this.props.user}/>} />
+                {/*<Route exact path='/profile' component={() => <Profile user={this.props.user}/>} /> */}
                 <Redirect to='/expenses' />
             </Switch>
             </main>

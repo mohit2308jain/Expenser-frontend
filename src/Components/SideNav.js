@@ -32,12 +32,14 @@ const SideNav = () => {
                 </Link>
               </li>
 
+              {/*
               <li className="nav-item">
                 <Link to='/profile' className="nav-link">
                     <i className="fa fa-user-circle-o primary" aria-hidden="true"></i>
                   <span className="link-text">Profile</span>
                 </Link>
               </li>
+              */}
         
               <li className="nav-item">
                 <div onClick={(e) => handleLogout(e)} className="nav-link">
