@@ -4,7 +4,7 @@ import { Table, Input } from 'reactstrap';
 import LineChartExample from './LineChartExample';
 import PieChartExample  from './PieChartExample';
 import UpdateForm from './UpdateForm';
-import baseURL from '../Redux/baseUrl';
+import baseURL from '../baseUrl';
 
 class Stats extends React.Component{
 

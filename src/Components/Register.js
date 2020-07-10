@@ -1,5 +1,5 @@
 import React from 'react';
-import baseURL from '../Redux/baseUrl';
+import baseURL from '../baseUrl';
 import './login.css';
 
 class Register extends React.Component{

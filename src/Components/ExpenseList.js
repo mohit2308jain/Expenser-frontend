@@ -3,7 +3,7 @@ import { Button, Label, Modal, ModalBody, ModalHeader, Table, Jumbotron } from '
 import { Control, LocalForm, Errors } from 'react-redux-form';
 
 import UpdateForm from './UpdateForm';
-import baseURL from '../Redux/baseUrl';
+import baseURL from '../baseUrl';
 
 const required = (val) => {
     return (val && val.length);

@@ -1,7 +1,7 @@
 import React from 'react';
 import './login.css';
 import Register from './Register';
-import baseURL from '../Redux/baseUrl';
+import baseURL from '../baseUrl';
 
 class Login extends React.Component{
     state = {
