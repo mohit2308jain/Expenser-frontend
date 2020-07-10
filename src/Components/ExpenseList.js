@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Label, Modal, ModalBody, ModalHeader, Table, Jumbotron } from 'reactstrap';
 import { Control, LocalForm, Errors } from 'react-redux-form';
 
+import UpdateForm from './UpdateForm';
 import baseURL from '../Redux/baseUrl';
 
 const required = (val) => {
@@ -16,30 +17,6 @@ const required = (val) => {
     return ( val && (val.length >= len));
   }
 
-const data = [
-    {
-        id: 1,
-        category: 'cat1',
-        name: 'item1',
-        amount: 200,
-        date: new Date()
-    },
-    {
-        id: 2,
-        category: 'cat2',
-        name: 'item2',
-        amount: 100,
-        date: new Date()
-    },
-    {
-        id: 3,
-        category: 'cat1',
-        name: 'item3',
-        amount: 50,
-        date: new Date()
-    }
-]
-
 class ExpenseList extends React.Component{
 
     state = {
@@ -53,11 +30,11 @@ class ExpenseList extends React.Component{
         const {id} = this.props.user;
         try{
             const resp = await baseURL.get(`/expenses/${id}`)
-            console.log(resp);
+            //console.log(resp);
             this.setState({expenses: resp.data})
         }
         catch(err){
-            console.log(err);
+            this.setState({expenses: []})
         }
     }
 
@@ -65,11 +42,11 @@ class ExpenseList extends React.Component{
         const {id} = this.props.user;
         try{
             const resp = await baseURL.get(`/budget/${id}`)
-            console.log(resp);
+            //console.log(resp);
             this.setState({budget: resp.data.budget})
         }
         catch(err){
-            console.log(err);
+            this.setState({budget: 0});
         }
     }
 
@@ -93,7 +70,7 @@ class ExpenseList extends React.Component{
     handleBudget = async(values) => {
         //console.log(typeof(parseInt(values.budget)));
         try{
-            const resp = await baseURL.put(`/budget`,{
+            await baseURL.put('/budget',{
                 id: this.props.user.id,
                 budget: parseInt(values.budget)
             })
@@ -105,68 +82,125 @@ class ExpenseList extends React.Component{
         this.toggleBudgetModal();
     }
       
-    handleSubmit = (values) => {
+    handleSubmit = async(values) => {
         //console.log(new Date(values.date));
+        const expense = {
+            name: values.name,
+            category: values.category,
+            amount: values.amt,
+            expense_date: values.date,
+            user_id: this.props.user.id
+        }
+
+        try{
+            await baseURL.post('/expense', expense);
+            this.fetchExpenses();
+        }
+        catch(err){
+            console.log(err);
+        }
         this.toggleModal();
+    }
+
+    deleteExpense = async(e,id) => {
+        e.preventDefault();
+        try{
+            await baseURL.delete(`/expense/${id}`);
+            this.fetchExpenses();
+        }
+        catch(err){
+            console.log(err)
+        }
+    }
+
+    handleUpdate = async(values,id) => {
+        console.log(values);
+        const expense = {
+            name: values.name,
+            category: values.category,
+            amount: values.amt,
+            expense_date: values.date,
+            user_id: this.props.user.id
+        }
+        try{
+            await baseURL.put(`expense/${id}`, expense);
+            this.fetchExpenses();
+        }
+        catch(err){
+            console.log(err);
+        }
     }
 
     render(){
 
+        const budget = this.state.budget;
+        const totalExpenses = this.state.expenses.reduce((acc, expense) => acc + parseInt(expense.amount), 0);
+        //console.log(totalExpenses);
+        const balance = (budget - totalExpenses);
+
         return(
             <React.Fragment>
-            <Jumbotron>
+            <Jumbotron style={{background: 'linear-gradient(110.53deg,#152530 0%,#040203 100%)', color: 'white'}}>
                 <div className="row text-center">
-                    <div className="col-12 col-md-3 border border-dark p-1">
+                    <div className="col-12 col-md-4 border border-dark p-1">
                         <h2>Total Budget</h2>
-                        <h5>{this.state.budget}</h5>
+                        <h5>{budget}</h5>
                     </div>
-                    <div className="col-12 col-md-3 border border-dark p-1">
+                    <div className="col-12 col-md-4 border border-dark p-1">
                         <h2>Total Expenses</h2>
-                        <h5>30000</h5>
+                        <h5>{totalExpenses}</h5>
                     </div>
-                    <div className="col-12 col-md-3 border border-dark p-1">
+                    <div className="col-12 col-md-2 border border-dark p-1">
                         <h2>Balance</h2>
-                        <h5>30000</h5>
+                        <h5>{balance}</h5>
                     </div>
-                    <div className="col-12 offset-md-1 col-md-2 border border-dark p-1">
-                        <Button color="success" className="m-1"
+                    <div className="col-12 col-md-2 border border-dark p-1">
+                        <Button color="success" outline className="m-1 font-weight-bold"
                         onClick={() => this.toggleModal()}>Add Expense</Button>
                         <br />
-                        <Button color="success" className="m-1"
+                        <Button color="success" outline className="m-1 font-weight-bold"
                         onClick={() => this.toggleBudgetModal()}>Update Budget</Button>
                     </div>
                 </div>
             </Jumbotron>
-            <Table striped dark>
-                <thead>
-                    <tr>
-                    <th>#</th>
-                    <th>Category</th>
-                    <th>Name</th>
-                    <th>Amount</th>
-                    <th>Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        this.state.expenses.map((d) => {
-                            return(
-                                <tr key={d.id}>
-                                    <td>{d.id}</td>
-                                    <td>{d.category}</td>
-                                    <td>{d.name}</td>
-                                    <td>{d.amount}</td>
-                                    <td>
-                                        {new Intl.DateTimeFormat('en-IN', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(d.expense_date)))}
-                                    </td>
-                                    <td><i className="fa fa-pencil" /></td>
-                                    <td><i className="fa fa-trash" /></td>
-                                </tr>
-                            )
-                        })
-                    }
-                </tbody>
-            </Table>
+            {
+                (totalExpenses)?(
+                    <Table striped dark>
+                        <thead>
+                            <tr>
+                            <th>#</th>
+                            <th>Category</th>
+                            <th>Name</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                this.state.expenses.map((d, index) => {
+                                    return(
+                                        <tr key={d.id}>
+                                            <td>{index}</td>
+                                            <td>{d.category}</td>
+                                            <td>{d.name}</td>
+                                            <td>{d.amount}</td>
+                                            <td>
+                                                {new Intl.DateTimeFormat('en-IN', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(d.expense_date)))}
+                                            </td>
+                                            <td>
+                                                <UpdateForm expense={d} onUpdate={(values) => this.handleUpdate(values,d.id)} />
+                                            </td>
+                                            <td><i className="fa fa-trash" 
+                                            onClick={(e) => this.deleteExpense(e,d.id)}/></td>
+                                        </tr>
+                                    )
+                                })
+                            }
+                        </tbody>
+                    </Table>
+                ):
+                (<h1>No Expeses....</h1>)
+            }
 
             <Modal isOpen={this.state.isBudgetModalOpen} toggle={this.toggleBudgetModal} 
                 style={{color:'black'}} className="modal-dialog modal-dialog-centered">
@@ -177,7 +211,7 @@ class ExpenseList extends React.Component{
                     <div className="form-group">
                         <Label htmlFor="budget">Budget</Label>
                         <Control.input type="number" model=".budget" id="budget"
-                            name="budget" placeholder="Enter Budget"
+                            name="budget" placeholder="Enter Budget" defaultValue={budget}
                             className="form-control" 
                             validators={{ required}}
                     />
@@ -265,10 +299,8 @@ class ExpenseList extends React.Component{
                         Close</Button>
                                 
                 </LocalForm>
-                    
                 </ModalBody>
             </Modal>
-
             </React.Fragment>
         )
     }
