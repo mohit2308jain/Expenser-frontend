@@ -4,72 +4,23 @@ import { Table, Input } from 'reactstrap';
 import LineChartExample from './LineChartExample';
 import PieChartExample  from './PieChartExample';
 import UpdateForm from './UpdateForm';
-import baseURL from '../baseUrl';
 
 class Stats extends React.Component{
 
     state = {
-        expenses: [],
-        budget: null,
         categoryfilter: 'Show All',
         searchfilter: ''
     }
 
-    fetchExpenses = async() => {
-        const {id} = this.props.user;
-        try{
-            const resp = await baseURL.get(`/expenses/${id}`)
-            //console.log(resp);
-            this.setState({expenses: resp.data})
-        }
-        catch(err){
-            this.setState({expenses: []})
-        }
-    }
-
-    fetchBudget = async() => {
-        const {id} = this.props.user;
-        try{
-            const resp = await baseURL.get(`/budget/${id}`)
-            this.setState({budget: resp.data.budget})
-        }
-        catch(err){
-            this.setState({budget: 0});
-        }
-    }
-
-    componentDidMount(){
-        this.fetchBudget()
-        this.fetchExpenses()
-    }
-
-    deleteExpense = async(e,id) => {
+    handleDelete = async(e,id) => {
         e.preventDefault();
-        try{
-            await baseURL.delete(`/expense/${id}`);
-            this.fetchExpenses();
-        }
-        catch(err){
-            console.log(err)
-        }
+        await this.props.onDelete(id);
+        await this.props.fetchExpenses();
     }
 
     handleUpdate = async(values,id) => {
-        console.log(values);
-        const expense = {
-            name: values.name,
-            category: values.category,
-            amount: values.amt,
-            expense_date: values.date,
-            user_id: this.props.user.id
-        }
-        try{
-            await baseURL.put(`expense/${id}`, expense);
-            this.fetchExpenses();
-        }
-        catch(err){
-            console.log(err);
-        }
+        await this.props.onUpdate(values,id);
+        await this.props.fetchExpenses();
     }
 
     onCategoryDropdownSelected = (event) => {
@@ -82,10 +33,10 @@ class Stats extends React.Component{
 
     render(){
 
-        const budget = this.state.budget;
-        const totalExpenses = this.state.expenses.reduce((acc, expense) => acc + parseInt(expense.amount), 0);
+        const budget = this.props.budget;
+        const totalExpenses = this.props.expenses.reduce((acc, expense) => acc + parseInt(expense.amount), 0);
         //const balance = (budget - totalExpenses);
-        let expenses = this.state.expenses;
+        let expenses = this.props.expenses;
         const { searchfilter, categoryfilter } = this.state;
         
         if(searchfilter){
@@ -157,7 +108,7 @@ class Stats extends React.Component{
                                                         <UpdateForm expense={d} onUpdate={(values) => this.handleUpdate(values,d.id)} />
                                                     </td>
                                                     <td><i className="fa fa-trash" 
-                                                    onClick={(e) => this.deleteExpense(e,d.id)}/></td>
+                                                    onClick={(e) => this.handleDelete(e,d.id)}/></td>
                                                 </tr>
                                             )
                                         })

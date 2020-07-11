@@ -8,22 +8,25 @@ class Register extends React.Component{
         name: '',
         email: '',
         password: '',
-        registerError: false
+        registerError: false,
+        loading: false
     }
 
     onRegister = async(event) => {
         event.preventDefault();
 
         try{
+            this.setState({loading: true, registerError: false});
             await baseURL.post('/register', {
                 name: this.state.name,
                 email: this.state.email,
                 password: this.state.password
             })
             this.props.onRegister();
+            this.setState({loading: false});
         }
         catch(err){
-            this.setState({registerError: true})
+            this.setState({registerError: true, loading: false})
             console.log(err);
         }
 
@@ -59,7 +62,8 @@ class Register extends React.Component{
     render(){
         const form = (
             <form id="contact" onSubmit={(event) => this.onRegister(event)}>
-                    <h3>Sign Up</h3>
+                    {(this.state.registerError) ? (<div><h4 className="color-red">User Already Exists..</h4><h3>Sign Up</h3></div>) : 
+                    ((this.state.loading) ? (<h2>Registering...</h2>) : (<h3>Sign Up</h3>))}
                     <fieldset>
                         <input placeholder="Your name" name="umane"
                             type="text" required onChange={(e) => this.handleName(e)}/>
@@ -77,18 +81,12 @@ class Register extends React.Component{
                     </fieldset>
                 </form>
         )
-
+        console.log(this.state)
         return(
-            <React.Fragment> 
-                {(this.state.registerError) ? (
-                    <div className="container"> 
-                    <h1>Error In Registration..</h1>
+            <React.Fragment>
+                <div className="container"> 
                     {form}
-                    </div>) : 
-                    (<div className="container"> 
-                        {form}
-                    </div>)
-                }
+                </div>
             </React.Fragment>
         )
     }

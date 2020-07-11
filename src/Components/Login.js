@@ -16,7 +16,7 @@ class Login extends React.Component{
         event.preventDefault();
 
         try{
-            this.setState({loading: true});
+            this.setState({loading: true, loginError: false});
             const resp = await baseURL.post('/signin', {
                 email: this.state.email,
                 password: this.state.password
@@ -49,13 +49,14 @@ class Login extends React.Component{
     render(){
         const form = (
             <form id="contact" onSubmit={(event) => this.onLogin(event)}>
-                <h3>Sign In</h3>
+                {(this.state.loginError) ? (<div><h4 className="color-red">Please Check Ur Credentials..</h4><h3>Sign In</h3></div>) : 
+                ((this.state.loading) ? (<h2>Logging You In...</h2>) : (<h3>Sign In</h3>))}
                 <fieldset>
                     <input placeholder="Your Email Address" name="email" 
                         type="email" required onChange={(e) => this.handleEmail(e)} />
                 </fieldset>
                 <fieldset>
-                    <input placeholder="Your Password" name="password" minLength='6'
+                    <input placeholder="Your Password" name="password" minLength='5'
                         type="password" required onChange={(e) => this.handlePassword(e)} />
                 </fieldset>
                 <fieldset>
@@ -68,21 +69,8 @@ class Login extends React.Component{
         )
         return(
             <React.Fragment>
-                {(this.state.register) ? <Register onRegister={(event) => this.handleRegister(event)} /> : 
-                    ((this.state.loginError) ? 
-                        (<div className="container"> 
-                            <h1>Error In Login..</h1>
-                            {form}
-                        </div>) : 
-                        (this.state.loading) ? 
-                        (<div className="container"> 
-                            <h1>Logging u In</h1>
-                            {form}
-                        </div>) : 
-                        (<div className="container"> 
-                            {form}
-                        </div>)    
-                    )
+                {(this.state.register) ? <Register onRegister={(event) => this.handleRegister(event)} /> :
+                    <div className="container">{form}</div> 
                 }
                 </React.Fragment>
         )
