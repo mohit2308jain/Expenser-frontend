@@ -58,19 +58,22 @@ class Register extends React.Component{
 
     render(){
         const form = (
-            <form id="contact" action="" method="post">
+            <form id="contact" onSubmit={(event) => this.onRegister(event)}>
                     <h3>Sign Up</h3>
                     <fieldset>
-                    <input placeholder="Your name" type="text" required onChange={(e) => this.handleName(e)}/>
+                        <input placeholder="Your name" name="umane"
+                            type="text" required onChange={(e) => this.handleName(e)}/>
                     </fieldset>
                     <fieldset>
-                    <input placeholder="Your Email Address" type="email" required onChange={(e) => this.handleEmail(e)} />
+                        <input placeholder="Your Email Address" name="email"
+                        type="email" required onChange={(e) => this.handleEmail(e)} />
                     </fieldset>
                     <fieldset>
-                    <input placeholder="Your Password" type="password" required onChange={(e) => this.handlePassword(e)} />
+                        <input placeholder="Your Password" name="password" minLength='6'
+                            type="password" required onChange={(e) => this.handlePassword(e)} />
                     </fieldset>
                     <fieldset>
-                    <button name="submit" type="submit" id="contact-submit"  onClick={(event) => this.onRegister(event)}>Register</button>
+                        <button name="submit" type="submit" id="contact-submit">Register</button>
                     </fieldset>
                 </form>
         )
@@ -79,7 +82,7 @@ class Register extends React.Component{
             <React.Fragment> 
                 {(this.state.registerError) ? (
                     <div className="container"> 
-                    <h1>Error In Resistration..</h1>
+                    <h1>Error In Registration..</h1>
                     {form}
                     </div>) : 
                     (<div className="container"> 

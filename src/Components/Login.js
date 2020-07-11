@@ -8,21 +8,24 @@ class Login extends React.Component{
         register: false,
         email: '',
         password: '',
-        loginError: false
+        loginError: false,
+        loading:false
     }
 
     onLogin = async(event) => {
         event.preventDefault();
 
         try{
+            this.setState({loading: true});
             const resp = await baseURL.post('/signin', {
                 email: this.state.email,
                 password: this.state.password
             })
             this.props.onLogin(resp.data);
+            this.setState({loading: false});
         }
         catch(err){
-            this.setState({loginError: true})
+            this.setState({loginError: true, loading: false})
             console.log(err);
         }
     }
@@ -45,16 +48,18 @@ class Login extends React.Component{
 
     render(){
         const form = (
-            <form id="contact" action="" method="post">
+            <form id="contact" onSubmit={(event) => this.onLogin(event)}>
                 <h3>Sign In</h3>
                 <fieldset>
-                    <input placeholder="Your Email Address" type="email" required onChange={(e) => this.handleEmail(e)} />
+                    <input placeholder="Your Email Address" name="email" 
+                        type="email" required onChange={(e) => this.handleEmail(e)} />
                 </fieldset>
                 <fieldset>
-                    <input placeholder="Your Password" type="password" required onChange={(e) => this.handlePassword(e)} />
+                    <input placeholder="Your Password" name="password" minLength='6'
+                        type="password" required onChange={(e) => this.handlePassword(e)} />
                 </fieldset>
                 <fieldset>
-                    <button name="submit" type="submit" onClick={(event) => this.onLogin(event)}>Login</button>
+                    <button name="submit" type="submit">Login</button>
                 </fieldset>
                 <fieldset>
                     <button name="submit" type="button" onClick={(event) => this.showRegisterForm(event)}>Register</button>
@@ -67,6 +72,11 @@ class Login extends React.Component{
                     ((this.state.loginError) ? 
                         (<div className="container"> 
                             <h1>Error In Login..</h1>
+                            {form}
+                        </div>) : 
+                        (this.state.loading) ? 
+                        (<div className="container"> 
+                            <h1>Logging u In</h1>
                             {form}
                         </div>) : 
                         (<div className="container"> 
