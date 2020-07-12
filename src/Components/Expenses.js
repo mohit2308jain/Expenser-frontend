@@ -1,9 +1,8 @@
 import React from 'react';
-import { Button, Label, Modal, ModalBody, ModalHeader, Table, Jumbotron } from 'reactstrap';
+import { Button, Label, Modal, ModalBody, ModalHeader, Jumbotron } from 'reactstrap';
 import { Control, LocalForm, Errors } from 'react-redux-form';
 
-import UpdateForm from './UpdateForm';
-import baseURL from '../baseUrl';
+import ExpenseTable from './ExpenseTable';
 
 const required = (val) => {
     return (val && val.length);
@@ -17,7 +16,7 @@ const required = (val) => {
     return ( val && (val.length >= len));
   }
 
-class ExpenseList extends React.Component{
+class Expenses extends React.Component{
 
     state = {
         isModalOpen: false,
@@ -36,40 +35,19 @@ class ExpenseList extends React.Component{
         });
     }
 
-    updateBudget = async(values) => {
+    handleUpdateBudget = async(values) => {
         this.toggleBudgetModal();
-        try{
-            await baseURL.put('/budget',{
-                id: this.props.user.id,
-                budget: parseInt(values.budget)
-            })
-            await this.props.fetchBudget();
-        }
-        catch(err){
-            console.log(err);
-        }
+        await this.props.onUpdateBudget(values);
+        await this.props.fetchBudget();
     }
       
-    addExpense = async(values) => {
-        const expense = {
-            name: values.name,
-            category: values.category,
-            amount: values.amt,
-            expense_date: values.date,
-            user_id: this.props.user.id
-        }
+    handleAddExpense = async(values) => {
         this.toggleModal();
-        try{
-            await baseURL.post('/expense', expense);
-            await this.props.fetchExpenses();
-        }
-        catch(err){
-            console.log(err);
-        }
+        await this.props.onAddExpense(values);
+        await this.props.fetchExpenses();
     }
 
-    handleDelete = async(e,id) => {
-        e.preventDefault();
+    handleDelete = async(id) => {
         await this.props.onDelete(id);
         await this.props.fetchExpenses();
     }
@@ -78,6 +56,7 @@ class ExpenseList extends React.Component{
         await this.props.onUpdate(values,id);
         await this.props.fetchExpenses();
     }
+    
 
     render(){
         console.log(this.props);
@@ -111,50 +90,16 @@ class ExpenseList extends React.Component{
                     </div>
                 </div>
             </Jumbotron>
-            {
-                (totalExpenses)?(
-                    <Table striped dark>
-                        <thead>
-                            <tr>
-                            <th>#</th>
-                            <th>Category</th>
-                            <th>Name</th>
-                            <th>Amount</th>
-                            <th>Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                expenses.map((d, index) => {
-                                    return(
-                                        <tr key={d.id}>
-                                            <td>{index}</td>
-                                            <td>{d.category}</td>
-                                            <td>{d.name}</td>
-                                            <td>{d.amount}</td>
-                                            <td>
-                                                {new Intl.DateTimeFormat('en-IN', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(d.expense_date)))}
-                                            </td>
-                                            <td>
-                                                <UpdateForm expense={d} onUpdate={(values) => this.handleUpdate(values,d.id)} />
-                                            </td>
-                                            <td><i className="fa fa-trash" 
-                                            onClick={(e) => this.handleDelete(e,d.id)}/></td>
-                                        </tr>
-                                    )
-                                })
-                            }
-                        </tbody>
-                    </Table>
-                ):
-                (<h1>No Expeses....</h1>)
-            }
+            
+            <ExpenseTable expenses={expenses} 
+                onUpdate={(values,id) => this.handleUpdate(values,id)}
+                onDelete={(id) => this.handleDelete(id)} />
 
             <Modal isOpen={this.state.isBudgetModalOpen} toggle={this.toggleBudgetModal} 
                 style={{color:'black'}} className="modal-dialog modal-dialog-centered">
                 <ModalHeader toggle={this.toggleBudgetModal}>Update Budget</ModalHeader>
                 <ModalBody>
-                <LocalForm onSubmit={(values) => this.updateBudget(values)}>
+                <LocalForm onSubmit={(values) => this.handleUpdateBudget(values)}>
 
                     <div className="form-group">
                         <Label htmlFor="budget">Budget</Label>
@@ -179,12 +124,11 @@ class ExpenseList extends React.Component{
                 </ModalBody>
             </Modal>
 
-
             <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal} 
                 style={{color:'black'}} className="modal-dialog modal-dialog-centered">
                 <ModalHeader toggle={this.toggleModal}>Add Expense</ModalHeader>
                 <ModalBody>
-                <LocalForm onSubmit={(values) => this.addExpense(values)}>
+                <LocalForm onSubmit={(values) => this.handleAddExpense(values)}>
 
                     <div className="form-group">
                     <Label htmlFor="category">Category</Label>
@@ -254,4 +198,4 @@ class ExpenseList extends React.Component{
     }
 }
 
-export default ExpenseList;
+export default Expenses;

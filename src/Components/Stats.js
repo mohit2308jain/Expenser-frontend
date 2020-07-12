@@ -1,9 +1,9 @@
 import React from 'react';
-import { Table, Input } from 'reactstrap';
+import { Input } from 'reactstrap';
 
 import LineChartExample from './LineChartExample';
 import PieChartExample  from './PieChartExample';
-import UpdateForm from './UpdateForm';
+import ExpenseTable from './ExpenseTable';
 
 class Stats extends React.Component{
 
@@ -12,8 +12,7 @@ class Stats extends React.Component{
         searchfilter: ''
     }
 
-    handleDelete = async(e,id) => {
-        e.preventDefault();
+    handleDelete = async(id) => {
         await this.props.onDelete(id);
         await this.props.fetchExpenses();
     }
@@ -35,7 +34,6 @@ class Stats extends React.Component{
 
         const budget = this.props.budget;
         const totalExpenses = this.props.expenses.reduce((acc, expense) => acc + parseInt(expense.amount), 0);
-        //const balance = (budget - totalExpenses);
         let expenses = this.props.expenses;
         const { searchfilter, categoryfilter } = this.state;
         
@@ -55,11 +53,12 @@ class Stats extends React.Component{
             <React.Fragment>
             <div className="container-fluid mt-1">
                 <div className="row my-2">
-                    <div className="col-12 col-md-6 col-lg-4 border border-dark">
+                    <div className="col-12 col-md-5 border border-dark mr-2">
+                    <h5>Bar Chart</h5>
                     <LineChartExample budget={budget} totalExpenses={totalExpenses}/>
                     </div>
-                    <div className="col-12 col-md-6 col-lg-4 border border-dark">
-                    <h5>Pie</h5>
+                    <div className="col-12 col-md-5 border border-dark pb-2">
+                    <h5>Pie Chart</h5>
                     <PieChartExample expenses={expenses}/>
                     </div>
                 </div>
@@ -80,44 +79,11 @@ class Stats extends React.Component{
                     </div>
                 </div>
                 <div className="row my-2">
-                    {
-                        (expenses.length)?(
-                            <Table striped dark>
-                                <thead>
-                                    <tr>
-                                    <th>#</th>
-                                    <th>Category</th>
-                                    <th>Name</th>
-                                    <th>Amount</th>
-                                    <th>Date</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        expenses.map((d, index) => {
-                                            return(
-                                                <tr key={d.id}>
-                                                    <td>{index}</td>
-                                                    <td>{d.category}</td>
-                                                    <td>{d.name}</td>
-                                                    <td>{d.amount}</td>
-                                                    <td>
-                                                        {new Intl.DateTimeFormat('en-IN', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(d.expense_date)))}
-                                                    </td>
-                                                    <td>
-                                                        <UpdateForm expense={d} onUpdate={(values) => this.handleUpdate(values,d.id)} />
-                                                    </td>
-                                                    <td><i className="fa fa-trash" 
-                                                    onClick={(e) => this.handleDelete(e,d.id)}/></td>
-                                                </tr>
-                                            )
-                                        })
-                                    }
-                                </tbody>
-                            </Table>
-                        ):
-                        (<h1>No Expeses....</h1>)
-                    }
+
+                <ExpenseTable expenses={expenses} 
+                    onUpdate={(values,id) => this.handleUpdate(values,id)}
+                    onDelete={(id) => this.handleDelete(id)} />
+
                 </div>
             </div>
             </React.Fragment>

@@ -6,6 +6,7 @@ export default class PieChartExample extends React.Component {
   render() {
     const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
     const expenses = this.props.expenses;
+    const totalExpenses = expenses.reduce((acc, expense) => acc + parseInt(expense.amount), 0);
 
     const shoppingExpenses = expenses.filter((expense) => {
       return expense.category.includes('Shopping');
@@ -30,8 +31,9 @@ export default class PieChartExample extends React.Component {
     ];
 
     return (
-      <div style={{ width: '100%', height: 300 }}>
-        <ResponsiveContainer>
+      <div style={{ width: '100%', height: 320 }}>
+        {(totalExpenses) ? (
+          <ResponsiveContainer>
           <PieChart>
             <Pie dataKey="value" isAnimationActive={true} data={data} cx={200} cy={200} outerRadius={80} fill="#8884d8" label>
               {data.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />)}
@@ -39,6 +41,7 @@ export default class PieChartExample extends React.Component {
             <Tooltip />
           </PieChart>
         </ResponsiveContainer>
+        ) : (<h5>No Expenses..</h5>)}
       </div>
     );
   }
