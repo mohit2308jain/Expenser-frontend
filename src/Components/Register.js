@@ -29,22 +29,10 @@ class Register extends React.Component{
             this.setState({registerError: true, loading: false})
             console.log(err);
         }
+    }
 
-        /*
-        axios({
-            method: 'post',
-            url: 'http://localhost:3001/register',
-            data: {
-                name: this.state.name,
-                email: this.state.email,
-                password: this.state.password
-            }
-        })
-        .then((res) => {
-            this.props.onRegister();
-        })
-        .catch((err) => console.log(err))
-        */
+    showLoginForm = (event) => {
+        this.props.onRegister();
     }
 
     handleEmail = (event) => {
@@ -79,6 +67,10 @@ class Register extends React.Component{
                     <fieldset>
                         <button name="submit" type="submit" id="contact-submit">Register</button>
                     </fieldset>
+                    <h4 className="text-center">OR</h4>
+                    <fieldset>
+                    <button name="submit" type="button" onClick={(event) => this.showLoginForm(event)}>Login</button>
+                </fieldset>
                 </form>
         )
         console.log(this.state)

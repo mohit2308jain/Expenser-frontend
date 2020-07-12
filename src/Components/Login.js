@@ -62,6 +62,7 @@ class Login extends React.Component{
                 <fieldset>
                     <button name="submit" type="submit">Login</button>
                 </fieldset>
+                <h4 className="text-center">OR</h4>
                 <fieldset>
                     <button name="submit" type="button" onClick={(event) => this.showRegisterForm(event)}>Register</button>
                 </fieldset>
@@ -69,7 +70,8 @@ class Login extends React.Component{
         )
         return(
             <React.Fragment>
-                {(this.state.register) ? <Register onRegister={(event) => this.handleRegister(event)} /> :
+                {(this.state.register) ? <Register 
+                    onRegister={(event) => this.handleRegister(event)} /> :
                     <div className="container">{form}</div> 
                 }
                 </React.Fragment>
