@@ -1,8 +1,8 @@
 import React from 'react';
 import { Input } from 'reactstrap';
 
-import LineChartExample from './LineChartExample';
-import PieChartExample  from './PieChartExample';
+import LineChartExample from './Charts/LineChartExample';
+import PieChartExample  from './Charts/PieChartExample';
 import ExpenseTable from './ExpenseTable';
 
 class Stats extends React.Component{
