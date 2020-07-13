@@ -59,7 +59,6 @@ class Expenses extends React.Component{
     
 
     render(){
-        console.log(this.props);
         const budget = this.props.budget;
         const totalExpenses = this.props.expenses.reduce((acc, expense) => acc + parseInt(expense.amount), 0);
         let expenses = this.props.expenses;

@@ -22,8 +22,8 @@ class Register extends React.Component{
                 email: this.state.email,
                 password: this.state.password
             })
-            this.props.onRegister();
             this.setState({loading: false});
+            this.props.onRegister();
         }
         catch(err){
             this.setState({registerError: true, loading: false})
@@ -73,7 +73,6 @@ class Register extends React.Component{
                 </fieldset>
                 </form>
         )
-        console.log(this.state)
         return(
             <React.Fragment>
                 <div className="container"> 

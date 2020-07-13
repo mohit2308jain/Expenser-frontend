@@ -15,19 +15,28 @@ class Login extends React.Component{
     onLogin = async(event) => {
         event.preventDefault();
 
-        try{
-            this.setState({loading: true, loginError: false});
-            const resp = await baseURL.post('/signin', {
-                email: this.state.email,
-                password: this.state.password
-            })
-            this.props.onLogin(resp.data);
-            this.setState({loading: false});
-        }
-        catch(err){
-            this.setState({loginError: true, loading: false})
+        try {
+            this.setState({ loading: true, loginError: false });
+            const resp = await baseURL.post("/signin", {
+              email: this.state.email,
+              password: this.state.password,
+            });
+      
+            localStorage.setItem('login', JSON.stringify({
+                login: true, 
+                token: resp.data.token
+            }))
+            localStorage.setItem('user', JSON.stringify({
+                user: resp.data.user
+            }))
+      
+            this.setState({ loading: false });
+            this.props.onLogin(resp.data.user);
+            
+          } catch (err) {
+            this.setState({ loginError: true, loading: false });
             console.log(err);
-        }
+          }
     }
 
     showRegisterForm = (event) => {

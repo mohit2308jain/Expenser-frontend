@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 
 const handleLogout = (event) => {
   event.preventDefault();
+  localStorage.removeItem('login');
+  localStorage.removeItem('user');
   window.location = '/';
 }
 

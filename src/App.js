@@ -1,27 +1,46 @@
 import React from 'react';
+import { Spinner } from 'reactstrap';
+
 import Main from './Components/Main';
 import Login from './Components/Login';
 
 class App extends React.Component {
 
   state = {
+    token: localStorage.login,
     isLoggedIn: false,
-    user : {}
+    user : localStorage.user
+  }
+
+  componentDidMount(){
+    if(localStorage.login !== undefined && localStorage.user !== undefined){
+      this.setState({token: localStorage.login, user: localStorage.user, isLoggedIn: true});
+    }
   }
 
   LoggedIn = (user) => {
-    this.setState({isLoggedIn: true, user: user})
+    this.setState({token: localStorage.login, user: localStorage.user, isLoggedIn: true});
   }
 
   render(){
+    const user = (this.state.user) ? JSON.parse(this.state.user) : undefined
+
     if(!this.state.isLoggedIn){
       return (
         <Login onLogin={(user) => this.LoggedIn(user)}/>
       )
     }
-    else{
+    else if(this.state.isLoggedIn){
       return(
-        <Main user={this.state.user}/>
+        <Main user={user.user}/>
+      )
+    }
+    else{
+      return (
+        <div className="container">
+          <Spinner style={{ width: '3rem', height: '3rem' }} />
+          <h1>Loading..</h1>
+        </div>
       )
     }
   }
