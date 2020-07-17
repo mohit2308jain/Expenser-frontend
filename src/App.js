@@ -3,7 +3,6 @@ import { Spinner } from 'reactstrap';
 
 import Main from './Components/Main';
 import Login from './Components/Login';
-import Footer from './Components/Footer';
 
 class App extends React.Component {
 
