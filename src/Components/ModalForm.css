@@ -1,0 +1,12 @@
+.modalHeader{
+    background: #111;
+}
+
+.modalBody{
+    background: linear-gradient(180.53deg, rgb(21, 37, 48) 50%, rgb(4, 2, 3) 100%);
+}
+
+.close{
+    color: whitesmoke !important;
+    opacity: 1 !important;
+}

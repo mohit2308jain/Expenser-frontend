@@ -3,6 +3,7 @@ import { Button, Label, Modal, ModalBody, ModalHeader, Jumbotron } from 'reactst
 import { Control, LocalForm, Errors } from 'react-redux-form';
 
 import ExpenseTable from './ExpenseTable';
+import './ModalForm.css';
 
 const required = (val) => {
     return (val && val.length);
@@ -95,9 +96,10 @@ class Expenses extends React.Component{
                 onDelete={(id) => this.handleDelete(id)} />
 
             <Modal isOpen={this.state.isBudgetModalOpen} toggle={this.toggleBudgetModal} 
-                style={{color:'black'}} className="modal-dialog modal-dialog-centered">
-                <ModalHeader toggle={this.toggleBudgetModal}>Update Budget</ModalHeader>
-                <ModalBody>
+                className="modal-dialog modal-dialog-centered text-light text-center">
+                <ModalHeader toggle={this.toggleBudgetModal}  className="border border-light modalHeader">
+                    Update Budget</ModalHeader>
+                <ModalBody className="border border-light modalBody">
                 <LocalForm onSubmit={(values) => this.handleUpdateBudget(values)}>
 
                     <div className="form-group">
@@ -124,9 +126,10 @@ class Expenses extends React.Component{
             </Modal>
 
             <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal} 
-                style={{color:'black'}} className="modal-dialog modal-dialog-centered">
-                <ModalHeader toggle={this.toggleModal}>Add Expense</ModalHeader>
-                <ModalBody>
+                className="modal-dialog modal-dialog-centered text-light text-center">
+                <ModalHeader toggle={this.toggleModal} className="border border-light modalHeader">
+                    Add Expense</ModalHeader>
+                <ModalBody className="border border-light modalBody">
                 <LocalForm onSubmit={(values) => this.handleAddExpense(values)}>
 
                     <div className="form-group">
@@ -186,8 +189,8 @@ class Expenses extends React.Component{
 
                     <Button type="submit" value="submit" color="primary" outline className="m-1">
                         Submit</Button>
-                    <Button type="button" color="danger" outline onClick={() => this.toggleModal()} className="m-1">
-                        Close</Button>
+                    <Button type="button" color="danger" outline onClick={() => this.toggleModal()} 
+                    className="m-1">Close</Button>
                                 
                 </LocalForm>
                 </ModalBody>

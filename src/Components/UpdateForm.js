@@ -2,6 +2,7 @@ import React from 'react';
 import { LocalForm, Control, Errors } from 'react-redux-form';
 import { Button, Label, Modal, ModalBody, ModalHeader } from 'reactstrap';
 
+import './ModalForm.css';
 
 const required = (val) => {
     return (val && val.length);
@@ -41,10 +42,11 @@ class UpdateForm extends React.Component {
       <React.Fragment>
         <i className="fa fa-pencil" onClick={() => this.toggleUpdateModal()}/>
 
-        <Modal isOpen={this.state.isUpdateModalOpen} toggle={this.toggleUpdateModal} 
-                style={{color:'black'}} className="modal-dialog modal-dialog-centered">
-                <ModalHeader toggle={this.toggleUpdateModal}>Update Expense</ModalHeader>
-                <ModalBody>
+        <Modal isOpen={this.state.isUpdateModalOpen} toggle={this.toggleUpdateModal}  
+                className="modal-dialog modal-dialog-centered text-light text-center">
+                <ModalHeader toggle={this.toggleUpdateModal} className="border border-light modalHeader">
+                    Update Expense</ModalHeader>
+                <ModalBody className="border border-light modalBody">
                 <LocalForm onSubmit={(values) => this.handleUpdate(values)}>
 
                     <div className="form-group">
@@ -104,8 +106,8 @@ class UpdateForm extends React.Component {
 
                     <Button type="submit" value="submit" color="primary" outline className="m-1">
                         Submit</Button>
-                    <Button type="button" color="danger" outline onClick={() => this.toggleUpdateModal()} className="m-1">
-                        Close</Button>
+                    <Button type="button" color="danger" outline onClick={() => this.toggleUpdateModal()} 
+                    className="m-1">Close</Button>
                                 
                 </LocalForm>
                 </ModalBody>

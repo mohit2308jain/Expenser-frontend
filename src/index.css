@@ -10,6 +10,9 @@
 }
 
 body{
+  font-family: "Roboto" !important;
+  font-style: italic;
+  font-weight: 500 !important;
   color: black !important;
   background: whitesmoke !important;
   margin: 0 !important;
@@ -34,6 +37,8 @@ main{
 }
 
 .navbar{
+  font-family: Helvetica, sans-serif !important;
+  font-style: normal !important;
   position: fixed !important;
   background-color: var(--bg-primary) !important;
   transition: width 200ms ease !important;
