@@ -49,6 +49,13 @@ const SideNav = () => {
                 <span className="link-text">Logout</span>
                 </div>
               </li>
+
+              <li className="nav-item">
+                <div onClick={() => window.open('https://mohitjain.now.sh', "_blank")} className="nav-link">
+                    <i className="fa fa-heart" />
+                <span className="link-text">Mohit Jain</span>
+                </div>
+              </li>
             </ul>
           </nav>
     )

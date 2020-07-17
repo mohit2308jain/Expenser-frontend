@@ -51,7 +51,7 @@ class Stats extends React.Component{
 
         return(
             <React.Fragment>
-            <div className="container-fluid mt-1">
+            <div className="container-fluid my-1">
                 <div className="row my-2">
                     <div className="col-12 col-md-5 border border-dark mr-2">
                     <h5>Bar Chart</h5>
@@ -63,11 +63,11 @@ class Stats extends React.Component{
                     </div>
                 </div>
                 <div className="row my-2">
-                    <div className="col-6">
+                    <div className="col-6 px-0">
                         <Input type="text" onChange={(event) => this.onTaskSearch(event)} label="Filter By Task"
                             placeholder="Enter Task" style={{background: '#333', color:'white'}}/>
                     </div>
-                    <div className="col-6">
+                    <div className="col-6 px-0">
                         <Input type="select" onChange={(event) => this.onCategoryDropdownSelected(event)} 
                             label="Filter By Category" style={{background: '#333', color:'white'}}>
                             <option key='0' value='Show All'>Show All</option>
@@ -78,12 +78,10 @@ class Stats extends React.Component{
                         </Input>
                     </div>
                 </div>
-                <div className="row my-2">
-
+                <div className="row my-2 px-md-2">
                 <ExpenseTable expenses={expenses} 
                     onUpdate={(values,id) => this.handleUpdate(values,id)}
                     onDelete={(id) => this.handleDelete(id)} />
-
                 </div>
             </div>
             </React.Fragment>

@@ -67,21 +67,27 @@ class Expenses extends React.Component{
 
         return(
             <React.Fragment>
-            <Jumbotron style={{background: 'linear-gradient(110.53deg,#152530 0%,#040203 100%)', color: 'white'}}>
+            <Jumbotron style={{background: 'linear-gradient(110.53deg,#152530 0%,#040203 100%)', color: 'white'}}
+                className="p-3">
                 <div className="row text-center">
-                    <div className="col-12 col-md-4 border border-dark p-1">
+                    <div className="col-12 h1 text-capitalize ">
+                        Welcome {this.props.user.name}
+                    </div>
+                </div>
+                <div className="row text-center p-3">
+                    <div className="col-12 col-md-4 border border-light p-1">
                         <h2>Total Budget</h2>
                         <h5>{budget}</h5>
                     </div>
-                    <div className="col-12 col-md-4 border border-dark p-1">
+                    <div className="col-12 col-md-4 border border-light p-1">
                         <h2>Total Expenses</h2>
                         <h5>{totalExpenses}</h5>
                     </div>
-                    <div className="col-12 col-md-2 border border-dark p-1">
+                    <div className="col-12 col-md-2 border border-light p-1">
                         <h2>Balance</h2>
                         <h5>{balance}</h5>
                     </div>
-                    <div className="col-12 col-md-2 border border-dark p-1">
+                    <div className="col-12 col-md-2 border border-light p-1">
                         <Button color="success" outline className="m-1 font-weight-bold"
                         onClick={() => this.toggleModal()}>Add Expense</Button>
                         <br />

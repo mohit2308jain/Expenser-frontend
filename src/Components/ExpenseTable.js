@@ -54,7 +54,14 @@ class ExpenseTable extends React.Component {
                         </tbody>
                     </Table>
                     ):
-                    (<h3>Looks Like You Haven't Added Any Expenses....</h3>)
+                    (<div class="row m-3">
+                        <div class="col-12 text-center" style={{borderRadius: '5px'}}>
+                            <div class="alert alert-light bg-dark text-light h2">
+                                No Expenses Available !
+                            </div>
+                        </div>
+                    </div>)
+                    
                 }
             </React.Fragment>
         )

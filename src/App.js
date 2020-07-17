@@ -3,6 +3,7 @@ import { Spinner } from 'reactstrap';
 
 import Main from './Components/Main';
 import Login from './Components/Login';
+import Footer from './Components/Footer';
 
 class App extends React.Component {
 
@@ -23,26 +24,29 @@ class App extends React.Component {
   }
 
   render(){
-    const user = (this.state.user) ? JSON.parse(this.state.user) : undefined
+    const user = (this.state.user) ? JSON.parse(this.state.user) : undefined;
+    let screen;
 
     if(!this.state.isLoggedIn){
-      return (
-        <Login onLogin={(user) => this.LoggedIn(user)}/>
-      )
+      screen = <Login onLogin={(user) => this.LoggedIn(user)}/>
     }
     else if(this.state.isLoggedIn){
-      return(
-        <Main user={user.user}/>
-      )
+      screen = <Main user={user.user}/>
     }
     else{
-      return (
+      screen = (
         <div className="container">
           <Spinner style={{ width: '3rem', height: '3rem' }} />
           <h1>Loading..</h1>
         </div>
       )
     }
+
+    return(
+      <React.Fragment>
+        {screen}
+      </React.Fragment>
+    )
   }
 }
 
