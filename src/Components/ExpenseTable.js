@@ -20,7 +20,7 @@ class ExpenseTable extends React.Component {
             <React.Fragment>
                 {
                 (expenses.length)?(
-                    <Table striped dark>
+                    <Table striped dark className="table-bordered table-hover table-responsive-sm">
                         <thead>
                             <tr>
                             <th>#</th>
@@ -28,6 +28,7 @@ class ExpenseTable extends React.Component {
                             <th>Name</th>
                             <th>Amount</th>
                             <th>Date</th>
+                            <th colSpan="2">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
