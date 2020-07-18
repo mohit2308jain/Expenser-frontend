@@ -1,61 +1,120 @@
-import { FETCH_BUDGET, FETCH_EXPENSE, FETCH_EXPENSES, 
-    UPDATE_BUDGET, UPDATE_EXPENSE, DELETE_EXPENSE, ADD_EXPENSE} from './Actions';
+import { FETCH_BUDGET, FETCH_EXPENSES, LOADING_BUDGET, LOADING_EXPENSES, 
+    EXPENSES_ERROR, BUDGET_ERROR } from './Actions';
 import baseURL from '../baseUrl';
 
-/*
-export const registerUser = (user) => {
-    return async (dispatch) => {
-        dispatch(registrationLoading());
-
+export const fetchBudget = (userid) => {
+    return async(dispatch) => {
+        dispatch(budgetLoading());
         try{
-            const resp = await baseURL.post('/register', user)
-            console.log(resp);
+            const resp = await baseURL.get(`/budget/${userid}`);
             dispatch({
-                type: USER_REGISTERED,
-                payload: true
+                type: FETCH_BUDGET,
+                payload: resp.data.budget
             })
         }
         catch(err){
-            console.log(err);
-            dispatch(registrationError('Error'));
+            dispatch(budgetError('Error In Fetching Budget.'));
         }
     }
 }
 
-export const registrationLoading = () => ({
-    type: REGISTRATION_LOADING
-})
-
-const registrationError = (errMess) => ({
-    type: REGISTRATION_ERROR,
-    payload: errMess
-})
-
-export const loginUser = (user) => {
-    return async (dispatch) => {
-        dispatch(loginLoading());
-
+export const updateBudget = (budget, userid) => {
+    return async(dispatch) => {
         try{
-            const resp = await baseURL.post('/signin', user);
+            await baseURL.put('/budget',{
+                id: userid,
+                budget: budget
+            })
+            dispatch(fetchBudget(userid));
+        }
+        catch(err){
+            dispatch(budgetError('Error In Updating Budget.'));
+        }
+    }
+}
 
+const budgetLoading = () => {
+    return (dispatch) => {
+        dispatch({
+            type: LOADING_BUDGET
+        })
+    }
+}
+
+const budgetError = (errMess) => {
+    return (dispatch) => {
+        dispatch({
+            type: BUDGET_ERROR,
+            payload: errMess
+        })
+    }
+}
+
+export const fetchExpenses = (userid) => {
+    return async(dispatch) => {
+        dispatch(expensesLoading());
+        try{
+            const resp = await baseURL.get(`/expenses/${userid}`);
             dispatch({
-                type: USER_LOGGED_IN,
+                type: FETCH_EXPENSES,
                 payload: resp.data
             })
         }
         catch(err){
-            dispatch(loginError('err'));
+            dispatch(expensesError('Error In Fetching Expenses.'));
         }
     }
 }
 
-export const loginLoading = () => ({
-    type: LOGIN_LOADING
-})
+export const addExpense = (expense, userid) => {
+    return async(dispatch) => {
+        try{
+            await baseURL.post('/expense', expense);
+            dispatch(fetchExpenses(userid));
+        }
+        catch(err){
+            dispatch(expensesError('Error In Adding Expense.'));
+        }
+    }
+}
 
-const loginError = (errMess) => ({
-    type: LOGIN_ERROR,
-    payload: errMess
-})
+export const updateExpense = (expense, id, userid) => {
+    return async(dispatch) => {
+        try{
+            await baseURL.put(`expense/${id}`, expense);
+            dispatch(fetchExpenses(userid));
+        }
+        catch(err){
+            dispatch(expensesError(`Error In Updating Expense with id: ${id}.`));
+        }
+    }
+}
 
-*/
+export const deleteExpense = (id, userid) => {
+    return async(dispatch) => {
+        try{
+            await baseURL.delete(`/expense/${id}`);
+            dispatch(fetchExpenses(userid));
+        }
+        catch(err){
+            dispatch(expensesError(`Error In Deleting Expense with id: ${id}.`));
+        }
+    }
+}
+
+const expensesLoading = () => {
+    return (dispatch) => {
+        dispatch({
+            type: LOADING_EXPENSES
+        })
+    }
+}
+
+const expensesError = (errMess) => {
+    return (dispatch) => {
+        dispatch({
+            type: EXPENSES_ERROR,
+            payload: errMess
+        })
+    }
+}

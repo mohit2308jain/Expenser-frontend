@@ -1,8 +1,9 @@
-import { registration } from './RegisterReducer';
-import { userReducer } from './UserReducer';
 import { combineReducers } from 'redux';
 
+import { budgetReducer } from './BudgetReducer';
+import { expenseReducer } from './ExpenseReducer';
+
 export default combineReducers({
-    registration: registration,
-    userReducer: userReducer
+    budget: budgetReducer,
+    expenses: expenseReducer
 })

@@ -39,23 +39,19 @@ class Expenses extends React.Component{
     handleUpdateBudget = async(values) => {
         this.toggleBudgetModal();
         await this.props.onUpdateBudget(values);
-        await this.props.fetchBudget();
     }
       
     handleAddExpense = async(values) => {
         this.toggleModal();
         await this.props.onAddExpense(values);
-        await this.props.fetchExpenses();
     }
 
     handleDelete = async(id) => {
         await this.props.onDelete(id);
-        await this.props.fetchExpenses();
     }
 
     handleUpdate = async(values,id) => {
         await this.props.onUpdate(values,id);
-        await this.props.fetchExpenses();
     }
     
 
@@ -97,7 +93,8 @@ class Expenses extends React.Component{
                 </div>
             </Jumbotron>
             
-            <ExpenseTable expenses={expenses} 
+            <ExpenseTable expenses={expenses}
+                isLoading={this.props.isLoading} 
                 onUpdate={(values,id) => this.handleUpdate(values,id)}
                 onDelete={(id) => this.handleDelete(id)} />
 

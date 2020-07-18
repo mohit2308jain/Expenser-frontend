@@ -1,10 +1,42 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import Stats from './Stats';
 import Expenses from './Expenses';
 import SideNav from './SideNav';
-import baseURL from '../baseUrl';
+import { fetchBudget, fetchExpenses, addExpense, 
+    updateBudget, updateExpense, deleteExpense } from '../Redux/ActionCreators';
+
+const mapStateToProps = (state) => {
+    return({
+        budget: state.budget,
+        expenses: state.expenses
+    })
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return({
+        fetchBudget: (userid) => {
+            return dispatch(fetchBudget(userid));
+        },
+        updateBudget: (budget, userid) => {
+            return dispatch(updateBudget(budget, userid));
+        },
+        fetchExpenses: (userid) => {
+            return dispatch(fetchExpenses(userid));
+        },
+        addExpense: (expense, userid) => {
+            return dispatch(addExpense(expense, userid));
+        },
+        updateExpense: (expense, id, userid) => {
+            return dispatch(updateExpense(expense, id, userid));
+        },
+        deleteExpense: (id, userid) => {
+            return dispatch(deleteExpense(id, userid));
+        }
+    })
+}
 
 class Main extends React.Component{
 
@@ -20,40 +52,22 @@ class Main extends React.Component{
 
     fetchExpenses = async() => {
         const {id} = this.props.user;
-        try{
-            const resp = await baseURL.get(`/expenses/${id}`)
-            //console.log(resp);
-            await this.setState({expenses: resp.data})
-        }
-        catch(err){
-            this.setState({expenses: []})
-        }
+        this.props.fetchExpenses(id);
     }
 
     fetchBudget = async() => {
         const {id} = this.props.user;
-        try{
-            const resp = await baseURL.get(`/budget/${id}`)
-            await this.setState({budget: resp.data.budget})
-        }
-        catch(err){
-            this.setState({budget: 0});
-        }
+        this.props.fetchBudget(id);
     }
 
     updateBudget = async(values) => {
-        try{
-            await baseURL.put('/budget',{
-                id: this.props.user.id,
-                budget: parseInt(values.budget)
-            })
-        }
-        catch(err){
-            console.log(err);
-        }
+        const {id} = this.props.user;
+        const budget = parseInt(values.budget);
+        this.props.updateBudget(budget, id);
     }
 
     addExpense = async(values) => {
+        const {id} = this.props.user;
         const expense = {
             name: values.name,
             category: values.category,
@@ -61,25 +75,16 @@ class Main extends React.Component{
             expense_date: values.date,
             user_id: this.props.user.id
         }
-        try{
-            await baseURL.post('/expense', expense);
-        }
-        catch(err){
-            console.log(err);
-        }
+        this.props.addExpense(expense, id);
     }
 
     deleteExpense = async(id) => {
-        try{
-            await baseURL.delete(`/expense/${id}`);
-        }
-        catch(err){
-            console.log(err)
-        }
+        const userid = this.props.user.id;
+        this.props.deleteExpense(id, userid);
     }
 
-    updateExpense = async(values,id) => {
-        console.log(values);
+    updateExpense = async(values, id) => {
+        const userid = this.props.user.id;
         const expense = {
             name: values.name,
             category: values.category,
@@ -87,12 +92,7 @@ class Main extends React.Component{
             expense_date: values.date,
             user_id: this.props.user.id
         }
-        try{
-            await baseURL.put(`expense/${id}`, expense);
-        }
-        catch(err){
-            console.log(err);
-        }
+        this.props.updateExpense(expense, id, userid);
     }
 
     render(){
@@ -108,17 +108,19 @@ class Main extends React.Component{
                         onDelete={(id) => this.deleteExpense(id)}
                         onUpdateBudget={(values) => this.updateBudget(values)}
                         fetchBudget={() => this.fetchBudget()} 
-                        budget={this.state.budget}
+                        budget={this.props.budget.budget}
                         fetchExpenses={() => this.fetchExpenses()} 
-                        expenses={this.state.expenses} /> } />
+                        expenses={this.props.expenses.expenses}
+                        isLoading={this.props.expenses.isLoading} /> } />
 
                 <Route exact path='/stats' component={() => <Stats 
                         user={this.props.user}
                         onUpdate={(values,id) => this.updateExpense(values,id)}
                         onDelete={(id) => this.deleteExpense(id)}
-                        budget={this.state.budget}
+                        budget={this.props.budget.budget}
                         fetchExpenses={() => this.fetchExpenses()} 
-                        expenses={this.state.expenses} /> } />
+                        expenses={this.props.expenses.expenses}
+                        isLoading={this.props.expenses.isLoading} /> } />
 
                 <Redirect to='/expenses' />
             </Switch>
@@ -128,4 +130,4 @@ class Main extends React.Component{
     }
 }
 
-export default Main;
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

@@ -14,12 +14,10 @@ class Stats extends React.Component{
 
     handleDelete = async(id) => {
         await this.props.onDelete(id);
-        await this.props.fetchExpenses();
     }
 
     handleUpdate = async(values,id) => {
         await this.props.onUpdate(values,id);
-        await this.props.fetchExpenses();
     }
 
     onCategoryDropdownSelected = (event) => {
@@ -79,7 +77,8 @@ class Stats extends React.Component{
                     </div>
                 </div>
                 <div className="row my-2 px-md-2">
-                <ExpenseTable expenses={expenses} 
+                <ExpenseTable expenses={expenses}
+                    isLoading={this.props.isLoading}
                     onUpdate={(values,id) => this.handleUpdate(values,id)}
                     onDelete={(id) => this.handleDelete(id)} />
                 </div>
