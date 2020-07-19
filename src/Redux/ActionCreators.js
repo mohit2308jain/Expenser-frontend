@@ -81,7 +81,7 @@ export const addExpense = (expense, userid) => {
 export const updateExpense = (expense, id, userid) => {
     return async(dispatch) => {
         try{
-            await baseURL.put(`expens/${id}`, expense);
+            await baseURL.put(`expense/${id}`, expense);
             dispatch(fetchExpenses(userid));
         }
         catch(err){
@@ -93,7 +93,7 @@ export const updateExpense = (expense, id, userid) => {
 export const deleteExpense = (id, userid) => {
     return async(dispatch) => {
         try{
-            await baseURL.delete(`/expens/${id}`);
+            await baseURL.delete(`/expense/${id}`);
             dispatch(fetchExpenses(userid));
         }
         catch(err){
