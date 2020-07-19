@@ -73,7 +73,7 @@ export const addExpense = (expense, userid) => {
             dispatch(fetchExpenses(userid));
         }
         catch(err){
-            dispatch(expenseCRUDError('Error In Adding Expense.'));
+            dispatch(expenseCRUDError('Error In Adding Expense.', userid));
         }
     }
 }
@@ -81,11 +81,11 @@ export const addExpense = (expense, userid) => {
 export const updateExpense = (expense, id, userid) => {
     return async(dispatch) => {
         try{
-            await baseURL.put(`expense/${id}`, expense);
+            await baseURL.put(`expens/${id}`, expense);
             dispatch(fetchExpenses(userid));
         }
         catch(err){
-            dispatch(expenseCRUDError('Error In Updating Expense.'));
+            dispatch(expenseCRUDError('Error In Updating Expense.', userid));
         }
     }
 }
@@ -93,11 +93,11 @@ export const updateExpense = (expense, id, userid) => {
 export const deleteExpense = (id, userid) => {
     return async(dispatch) => {
         try{
-            await baseURL.delete(`/expense/${id}`);
+            await baseURL.delete(`/expens/${id}`);
             dispatch(fetchExpenses(userid));
         }
         catch(err){
-            dispatch(expenseCRUDError('Error In Deleting Expense.'));
+            dispatch(expenseCRUDError('Error In Deleting Expense.', userid));
         }
     }
 }
@@ -119,11 +119,14 @@ const expensesError = (errMess) => {
     }
 }
 
-const expenseCRUDError = (errMess) => {
+const expenseCRUDError = (errMess, userid) => {
     return (dispatch) => {
         dispatch({
             type: EXPENSE_CRUD_ERROR,
             payload: errMess
         })
+        setTimeout(() => {
+            dispatch(fetchExpenses(userid));
+        }, 3000);
     }
 }

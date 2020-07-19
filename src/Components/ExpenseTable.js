@@ -67,18 +67,29 @@ class ExpenseTable extends React.Component {
         }
         else{
             table = (
-                <div className="row m-3">
-                    <div className="col-12 text-center" style={{borderRadius: '5px'}}>
-                        <div className="alert alert-light bg-dark text-light h2">
-                            No Expenses Available !
-                        </div>
+                <div className="col-12 text-center" style={{borderRadius: '5px'}}>
+                    <div className="alert alert-light bg-dark text-light h2">
+                        No Expenses Available !
                     </div>
                 </div>
             )
         }
 
+        const msg = this.props.expenseErrMess;
+        let Errmess;
+        if(msg){
+            Errmess=(
+                <div className="col-12 text-center" style={{borderRadius: '5px'}}>
+                    <div className="alert alert-light bg-dark text-light h2">
+                        {msg}
+                    </div>
+                </div>  
+            )
+        }
+
         return(
             <React.Fragment>
+                {Errmess}
                 {table}
             </React.Fragment>
         )

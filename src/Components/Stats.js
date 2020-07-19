@@ -76,7 +76,7 @@ class Stats extends React.Component{
                         </Input>
                     </div>
                 </div>
-                <div className="row my-2 px-md-2">
+                <div className="row">
                 <ExpenseTable expenses={expenses}
                     isLoading={this.props.isLoading}
                     onUpdate={(values,id) => this.handleUpdate(values,id)}
