@@ -80,7 +80,10 @@ class Stats extends React.Component{
                 <ExpenseTable expenses={expenses}
                     isLoading={this.props.isLoading}
                     onUpdate={(values,id) => this.handleUpdate(values,id)}
-                    onDelete={(id) => this.handleDelete(id)} />
+                    onDelete={(id) => this.handleDelete(id)}
+                    errMess={this.props.errMess}
+                    expenseErrMess={this.props.expenseErrMess} />
+                    
                 </div>
             </div>
             </React.Fragment>

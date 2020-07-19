@@ -111,7 +111,9 @@ class Main extends React.Component{
                         budget={this.props.budget.budget}
                         fetchExpenses={() => this.fetchExpenses()} 
                         expenses={this.props.expenses.expenses}
-                        isLoading={this.props.expenses.isLoading} /> } />
+                        isLoading={this.props.expenses.isLoading}
+                        errMess={this.props.expenses.errMess}
+                        expenseErrMess={this.props.expenses.expenseErrMess} /> } />
 
                 <Route exact path='/stats' component={() => <Stats 
                         user={this.props.user}
@@ -120,7 +122,9 @@ class Main extends React.Component{
                         budget={this.props.budget.budget}
                         fetchExpenses={() => this.fetchExpenses()} 
                         expenses={this.props.expenses.expenses}
-                        isLoading={this.props.expenses.isLoading} /> } />
+                        isLoading={this.props.expenses.isLoading}
+                        errMess={this.props.expenses.errMess}
+                        expenseErrMess={this.props.expenses.expenseErrMess} /> } />
 
                 <Redirect to='/expenses' />
             </Switch>

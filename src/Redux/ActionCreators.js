@@ -1,5 +1,5 @@
 import { FETCH_BUDGET, FETCH_EXPENSES, LOADING_BUDGET, LOADING_EXPENSES, 
-    EXPENSES_ERROR, BUDGET_ERROR } from './Actions';
+    EXPENSES_ERROR, BUDGET_ERROR, EXPENSE_CRUD_ERROR } from './Actions';
 import baseURL from '../baseUrl';
 
 export const fetchBudget = (userid) => {
@@ -73,7 +73,7 @@ export const addExpense = (expense, userid) => {
             dispatch(fetchExpenses(userid));
         }
         catch(err){
-            dispatch(expensesError('Error In Adding Expense.'));
+            dispatch(expenseCRUDError('Error In Adding Expense.'));
         }
     }
 }
@@ -85,7 +85,7 @@ export const updateExpense = (expense, id, userid) => {
             dispatch(fetchExpenses(userid));
         }
         catch(err){
-            dispatch(expensesError(`Error In Updating Expense with id: ${id}.`));
+            dispatch(expenseCRUDError('Error In Updating Expense.'));
         }
     }
 }
@@ -97,7 +97,7 @@ export const deleteExpense = (id, userid) => {
             dispatch(fetchExpenses(userid));
         }
         catch(err){
-            dispatch(expensesError(`Error In Deleting Expense with id: ${id}.`));
+            dispatch(expenseCRUDError('Error In Deleting Expense.'));
         }
     }
 }
@@ -114,6 +114,15 @@ const expensesError = (errMess) => {
     return (dispatch) => {
         dispatch({
             type: EXPENSES_ERROR,
+            payload: errMess
+        })
+    }
+}
+
+const expenseCRUDError = (errMess) => {
+    return (dispatch) => {
+        dispatch({
+            type: EXPENSE_CRUD_ERROR,
             payload: errMess
         })
     }
