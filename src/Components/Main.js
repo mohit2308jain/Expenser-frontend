@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Stats from './Stats';
 import Expenses from './Expenses';
 import SideNav from './SideNav';
+import Header from './Header';
 import { fetchBudget, fetchExpenses, addExpense, 
     updateBudget, updateExpense, deleteExpense } from '../Redux/ActionCreators';
 
@@ -98,7 +99,12 @@ class Main extends React.Component{
     render(){
         return(
             <BrowserRouter>
-            <SideNav />
+            <div className="bigScreen">
+                <SideNav />
+            </div>
+            <div className="smallScreen">
+                <Header />
+            </div>
             <main>
             <Switch>
                 <Route exact path='/expenses' component={() => <Expenses 

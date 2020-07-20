@@ -31,111 +31,110 @@ body::-webkit-scrollbar-thumb{
   background: #123456 !important;
 }
 
-main{
-  margin-left: 5rem !important;
-  padding: 1rem !important;
-}
-
-.navbar{
-  font-family: Helvetica, sans-serif !important;
-  font-style: normal !important;
-  position: fixed !important;
-  background-color: var(--bg-primary) !important;
-  transition: width 200ms ease !important;
-  padding: 0 !important;
-  align-items: unset !important;
-}
-
-.navbar-nav{
-  list-style: none !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-}
-
-.nav-item{
-  width: 100% !important;
-}
-
-.nav-link {
-  display: flex !important;
-  align-items: center !important;
-  height: 5rem !important;
-  color: var(--text-primary) !important;
-  text-decoration: none !important;
-}
-
-.nav-link:hover  {
-  background: #00dc22 !important;
-  color: black !important;
-}
-
-.link-text {
-  display: none !important;
-  margin-left: 1rem !important;
-}
-
-.nav-link i {
-  width: 2rem !important;
-  min-width: 2rem !important;
-  margin: 0 1.5rem !important;
-}
-
-.logo {
-  font-weight: bold !important;
-  text-transform: uppercase !important;
-  margin-bottom: 1rem !important;
-  text-align: center !important;
-  color: var(--text-secondary) !important;
-  background: var(--bg-secondary) !important;
-  font-size: 1.5rem !important;
-  letter-spacing: 0.3ch !important;
-  width: 100% !important;
-}
-
-.logo i {
-  transform: rotate(0deg) !important;
-  transition: transform var(--transition-speed) !important;
-}
 
 @media only screen and (max-width: 600px){
-  .navbar{
-      bottom: 0 !important;
-      width: 100vw !important;
-      height: 5rem !important;
-      z-index: 1;
+  .bigScreen{
+    display: none;
+  }
+  
+  .smallScreen{
+    z-index: 1;
+    position: fixed;
+    top:0;
+    left: 0;
+    right: 0;
+    background-color: var(--bg-primary) !important;
+    font-family: Helvetica, sans-serif !important;
+    font-style: normal !important;
   }
 
-  .logo{
-      display: none !important;
+  .nav-link:hover  {
+    color: white !important;
+    font-weight: bolder;
+    font-size: larger;
+    font-weight: bolder;
   }
 
-  .navbar-nav {
-      flex-direction: row !important;
-  }
-
-  .nav-link{
-      justify-content: center !important;
-  }
   main{
-      margin-left: 0 !important;
-      margin-bottom: 5rem;
-  }
-
-  .nav-item:last-child{
-    margin-left: auto !important;
+    margin-top: 4rem;
+    padding: 0.5rem;
   }
 }
 
 
 @media only screen and (min-width: 600px){
+  .smallScreen{
+    display: none;
+  }
+
+  main{
+    margin-left: 5rem !important;
+    padding: 1rem !important;
+  }
+  
   .navbar{
+    font-family: Helvetica, sans-serif !important;
+    font-style: normal !important;
+    position: fixed !important;
+    background-color: var(--bg-primary) !important;
+    transition: width 200ms ease !important;
+    padding: 0 !important;
+    align-items: unset !important;
     top: 0 !important;
     width: 5rem !important;
     height: 100vh !important;
     z-index: 1;
+  }
+  
+  .navbar-nav{
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+  
+  .nav-item{
+    width: 100% !important;
+  }
+  
+  .nav-link {
+    display: flex !important;
+    align-items: center !important;
+    height: 5rem !important;
+    color: var(--text-primary) !important;
+    text-decoration: none !important;
+  }
+  
+  .nav-link:hover  {
+    background: #00dc22 !important;
+    color: black !important;
+    width: 16rem;
+    font-weight: bolder;
+  }
+  
+  .link-text {
+    display: none !important;
+    margin-left: 1rem !important;
+  }
+  
+  .nav-link i {
+    width: 2rem !important;
+    min-width: 2rem !important;
+    margin: 0 1.5rem !important;
+  }
+  
+  .logo {
+    font-weight: bold !important;
+    text-transform: uppercase !important;
+    margin-bottom: 1rem !important;
+    text-align: center !important;
+    color: var(--text-secondary) !important;
+    background: var(--bg-secondary) !important;
+    font-size: 1.5rem !important;
+    letter-spacing: 0.3ch !important;
+    width: 100% !important;
   }
 
   .navbar:hover {
@@ -145,11 +144,6 @@ main{
   .navbar:hover .link-text{
     display: block !important;
     width: 10rem;
-  }
-
-  .nav-link:hover{
-    width: 16rem;
-    font-weight: bolder;
   }
 
   .nav-item:last-child{
