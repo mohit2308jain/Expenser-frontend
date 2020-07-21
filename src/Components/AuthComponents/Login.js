@@ -3,7 +3,7 @@ import { Spinner } from 'reactstrap';
 
 import './login.css';
 import Register from './Register';
-import baseURL from '../baseUrl';
+import baseURL from '../../baseUrl';
 
 class Login extends React.Component{
     state = {

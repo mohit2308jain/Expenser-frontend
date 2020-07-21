@@ -1,7 +1,7 @@
 import React from 'react';
 import { Spinner } from 'reactstrap';
 
-import baseURL from '../baseUrl';
+import baseURL from '../../baseUrl';
 import './login.css';
 
 class Register extends React.Component{

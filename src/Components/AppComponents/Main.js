@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 
 import Stats from './Stats';
 import Expenses from './Expenses';
-import SideNav from './SideNav';
-import Header from './Header';
+import Profile from './Profile';
+import SideNav from '../Layouts/SideNav';
+import Header from '../Layouts/Header';
 import { fetchBudget, fetchExpenses, addExpense, 
-    updateBudget, updateExpense, deleteExpense } from '../Redux/ActionCreators';
+    updateBudget, updateExpense, deleteExpense } from '../../Redux/ActionCreators';
 
 const mapStateToProps = (state) => {
     return({
@@ -131,6 +132,9 @@ class Main extends React.Component{
                         isLoading={this.props.expenses.isLoading}
                         errMess={this.props.expenses.errMess}
                         expenseErrMess={this.props.expenses.expenseErrMess} /> } />
+
+                <Route exact path='/profile' component={() => <Profile user={this.props.user} 
+                        budget={this.props.budget.budget} /> } />
 
                 <Redirect to='/expenses' />
             </Switch>

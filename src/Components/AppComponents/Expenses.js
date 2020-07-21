@@ -66,7 +66,7 @@ class Expenses extends React.Component{
             <Jumbotron style={{background: 'linear-gradient(110.53deg,#152530 0%,#040203 100%)', color: 'white'}}
                 className="p-3">
                 <div className="row text-center">
-                    <div className="col-12 h1 text-capitalize ">
+                    <div className="col-12 h1 text-capitalize">
                         Welcome {this.props.user.name}
                     </div>
                 </div>

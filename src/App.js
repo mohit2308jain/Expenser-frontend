@@ -1,8 +1,8 @@
 import React from 'react';
 import { Spinner } from 'reactstrap';
 
-import Main from './Components/Main';
-import Login from './Components/Login';
+import Main from './Components/AppComponents/Main';
+import Login from './Components/AuthComponents/Login';
 
 class App extends React.Component {
 

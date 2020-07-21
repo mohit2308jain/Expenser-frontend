@@ -44,10 +44,17 @@ class Header extends React.Component {
                                 <NavLink className="nav-link" to='/expenses' onClick={(event) => this.closeNavBar(event)}>
                                     <span className="fa fa-th-list"></span> Expenses</NavLink>
                             </NavItem>
+
                             <NavItem>
                                 <NavLink className="nav-link" to='/stats' onClick={(event) => this.closeNavBar(event)}>
                                     <span className="fa fa-pie-chart"></span> Stats</NavLink>
                             </NavItem>
+                            
+                            <NavItem>
+                                <NavLink className="nav-link" to='/profile' onClick={(event) => this.closeNavBar(event)}>
+                                    <span className="fa fa-user-circle-o"></span> Profile</NavLink>
+                            </NavItem>
+
                             <NavItem>
                                 <div className="nav-link" onClick={(e) => handleLogout(e)}>
                                     <span className="fa fa-sign-out"></span> Logout</div>

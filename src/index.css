@@ -112,6 +112,7 @@ body::-webkit-scrollbar-thumb{
     color: black !important;
     width: 16rem;
     font-weight: bolder;
+    font-size: x-large;
   }
   
   .link-text {

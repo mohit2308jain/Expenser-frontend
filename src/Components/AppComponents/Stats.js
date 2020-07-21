@@ -1,8 +1,8 @@
 import React from 'react';
 import { Input } from 'reactstrap';
 
-import LineChartExample from './Charts/LineChartExample';
-import PieChartExample  from './Charts/PieChartExample';
+import LineChartExample from '../Charts/LineChartExample';
+import PieChartExample  from '../Charts/PieChartExample';
 import ExpenseTable from './ExpenseTable';
 
 class Stats extends React.Component{
@@ -51,12 +51,12 @@ class Stats extends React.Component{
             <React.Fragment>
             <div className="container-fluid my-1">
                 <div className="row my-2">
-                    <div className="col-12 col-md-5 border border-dark mr-2">
-                    <h5>Bar Chart</h5>
+                    <div className="col-12 col-md-5 border border-dark mr-2 my-1 text-center">
+                    <h5><u>Bar Chart</u></h5>
                     <LineChartExample budget={budget} totalExpenses={totalExpenses}/>
                     </div>
-                    <div className="col-12 col-md-5 border border-dark pb-2">
-                    <h5>Pie Chart</h5>
+                    <div className="col-12 col-md-5 border border-dark pb-2 my-1 text-center">
+                    <h5><u>Pie Chart</u></h5>
                     <PieChartExample expenses={expenses}/>
                     </div>
                 </div>

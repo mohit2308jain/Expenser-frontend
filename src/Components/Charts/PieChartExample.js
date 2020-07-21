@@ -41,7 +41,7 @@ export default class PieChartExample extends React.Component {
             <Tooltip />
           </PieChart>
         </ResponsiveContainer>
-        ) : (<h5>No Expenses..</h5>)}
+        ) : (<h5 className="text-center">No Expenses..</h5>)}
       </div>
     );
   }
