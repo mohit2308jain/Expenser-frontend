@@ -35,6 +35,8 @@
 }
 
 #contact {
+  border: #111 solid 5px;
+  border-radius: 10px;
   background: #F9F9F9;
   padding: 25px;
   margin: 150px 0;

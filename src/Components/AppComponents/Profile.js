@@ -7,7 +7,7 @@ const Profile = ({ user, budget }) => {
             <Card className="text-center border border-light" style={{background: '#111'}}>
                 <CardHeader className="text-light">
                     <h1 class="display-4">Profile</h1>
-                    <p class="lead">View the Info You have provided us</p>
+                    <p class="lead">View Your Info</p>
                 </CardHeader>
                 <CardBody style={{background: 'linear-gradient(180.53deg, rgb(21, 37, 48) 50%, rgb(4, 2, 3) 100%)'}}>
                     <div className="row">
