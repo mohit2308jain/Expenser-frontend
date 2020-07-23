@@ -6,16 +6,8 @@ import ExpenseTable from './ExpenseTable';
 import './ModalForm.css';
 
 const required = (val) => {
-    return (val && val.length);
-  }
-    
-  const maxLength = (len) => (val) => {
-    return (!(val) || (val.length <= len));
-  }
-  
-  const minLength = (len) => (val) => {
-    return ( val && (val.length >= len));
-  }
+   return (val && val.length);
+}
 
 class Expenses extends React.Component{
 
@@ -112,12 +104,12 @@ class Expenses extends React.Component{
                         <Control.input type="number" model=".budget" id="budget"
                             name="budget" placeholder="Enter Budget" defaultValue={budget}
                             className="form-control" 
-                            validators={{ required}}
+                            validators={{ required }}
                     />
 
-                    <Errors className="text-danger"
+                    <Errors className="text-danger alert alert-danger mt-1 font-weight-bold"
                         model=".budget" show="touched"
-                        messages={{ required: 'Required'}}
+                        messages={{ required: 'You must enter the amount for the budget.' }}
                     />
                     </div>
 
@@ -153,16 +145,12 @@ class Expenses extends React.Component{
                     <Control.text model=".name" id="name"
                         name="name" placeholder="Enter Expense Name"
                         className="form-control" 
-                        validators={{ minLength: minLength(3), 
-                        maxLength: maxLength(15)
-                        }}
+                        validators={{ required }}
                     />
 
-                    <Errors className="text-danger"
+                    <Errors className="text-danger alert alert-danger mt-1 font-weight-bold"
                         model=".name" show="touched"
-                        messages={{minLength: 'Must be greater than 2 characters',
-                            maxLength: 'Must be 15 characters or less'
-                        }}
+                        messages={{ required: 'You must enter a name for the expense.' }}
                     />
                     </div>
 
@@ -174,9 +162,9 @@ class Expenses extends React.Component{
                         validators={{ required}}
                     />
 
-                    <Errors className="text-danger"
+                    <Errors className="text-danger alert alert-danger mt-1 font-weight-bold"
                         model=".amt" show="touched"
-                        messages={{ required: 'Required'}}
+                        messages={{ required: 'You must enter the amount of the expense.' }}
                     />
                     </div>
 
@@ -186,9 +174,9 @@ class Expenses extends React.Component{
                         name="date" className="form-control"
                         validators={{ required}} />
 
-                    <Errors className="text-danger"
+                    <Errors className="text-danger alert alert-danger mt-1 font-weight-bold"
                         model=".date" show="touched"
-                        messages={{ required: 'Required'}}
+                        messages={{ required: 'Required' }}
                     />
                     </div>
 

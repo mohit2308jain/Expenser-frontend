@@ -5,15 +5,7 @@ import { Button, Label, Modal, ModalBody, ModalHeader } from 'reactstrap';
 import './ModalForm.css';
 
 const required = (val) => {
-    return (val && val.length);
-}
-  
-const maxLength = (len) => (val) => {
-    return (!(val) || (val.length <= len));
-}
-
-const minLength = (len) => (val) => {
-    return ( val && (val.length >= len));
+   return (val && val.length);
 }
 
 class UpdateForm extends React.Component {
@@ -65,17 +57,14 @@ class UpdateForm extends React.Component {
                     <Control.text model=".name" id="name"
                         name="name" placeholder="Enter Expense Name"
                         className="form-control" defaultValue={d.name} 
-                        validators={{ minLength: minLength(3), 
-                        maxLength: maxLength(15)
-                        }}
+                        validators={{ required: required }}
                     />
 
-                    <Errors className="text-danger"
+                    <Errors className="text-danger alert alert-danger mt-1 font-weight-bold"
                         model=".name" show="touched"
-                        messages={{minLength: 'Must be greater than 2 characters',
-                            maxLength: 'Must be 15 characters or less'
-                        }}
+                        messages={{ required: 'You must enter a name for the expense.' }}
                     />
+
                     </div>
 
                     <div className="form-group">
@@ -83,12 +72,12 @@ class UpdateForm extends React.Component {
                     <Control.input type="number" model=".amt" id="amt"
                         name="amt" placeholder="Enter Amount" defaultValue={d.amount}
                         className="form-control" 
-                        validators={{ required}}
+                        validators={{ required }}
                     />
 
-                    <Errors className="text-danger"
+                    <Errors className="text-danger alert alert-danger mt-1 font-weight-bold"
                         model=".amt" show="touched"
-                        messages={{ required: 'Required'}}
+                        messages={{ required: 'You must enter the amount of the expense.' }}
                     />
                     </div>
 
@@ -98,9 +87,9 @@ class UpdateForm extends React.Component {
                         name="date" className="form-control" defaultValue={da}
                         validators={{ required}} />
 
-                    <Errors className="text-danger"
+                    <Errors className="text-danger alert alert-danger mt-1 font-weight-bold"
                         model=".date" show="touched"
-                        messages={{ required: 'Required'}}
+                        messages={{ required: 'Required' }}
                     />
                     </div>
 
