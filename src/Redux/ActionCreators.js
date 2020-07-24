@@ -1,4 +1,4 @@
-import { FETCH_BUDGET, FETCH_EXPENSES, LOADING_BUDGET, LOADING_EXPENSES, 
+import { FETCH_BUDGET, FETCH_EXPENSES, LOADING_BUDGET, LOADING_EXPENSES, REMOVE_MSGS,
     EXPENSES_ERROR, BUDGET_ERROR, EXPENSE_CRUD_ERROR } from './Actions';
 import baseURL from '../baseUrl';
 
@@ -52,7 +52,7 @@ const budgetError = (errMess) => {
 
 export const fetchExpenses = (userid) => {
     return async(dispatch) => {
-        dispatch(expensesLoading());
+        //dispatch(expensesLoading());
         try{
             const resp = await baseURL.get(`/expenses/${userid}`);
             dispatch({
@@ -73,7 +73,7 @@ export const addExpense = (expense, userid) => {
             dispatch(fetchExpenses(userid));
         }
         catch(err){
-            dispatch(expenseCRUDError('Error In Adding Expense.', userid));
+            dispatch(expenseCRUDError('Error In Adding Expense.'));
         }
     }
 }
@@ -82,10 +82,11 @@ export const updateExpense = (expense, id, userid) => {
     return async(dispatch) => {
         try{
             await baseURL.put(`expense/${id}`, expense);
+            //dispatch(expenseOperationMsgs('Expense Updated'));
             dispatch(fetchExpenses(userid));
         }
         catch(err){
-            dispatch(expenseCRUDError('Error In Updating Expense.', userid));
+            dispatch(expenseCRUDError('Error In Updating Expense.'));
         }
     }
 }
@@ -97,12 +98,12 @@ export const deleteExpense = (id, userid) => {
             dispatch(fetchExpenses(userid));
         }
         catch(err){
-            dispatch(expenseCRUDError('Error In Deleting Expense.', userid));
+            dispatch(expenseCRUDError('Error In Deleting Expense.'));
         }
     }
 }
 
-const expensesLoading = () => {
+export const expensesLoading = () => {
     return (dispatch) => {
         dispatch({
             type: LOADING_EXPENSES
@@ -119,14 +120,31 @@ const expensesError = (errMess) => {
     }
 }
 
-const expenseCRUDError = (errMess, userid) => {
+const expenseCRUDError = (errMess) => {
     return (dispatch) => {
         dispatch({
             type: EXPENSE_CRUD_ERROR,
             payload: errMess
         })
         setTimeout(() => {
-            dispatch(fetchExpenses(userid));
-        }, 3000);
+            dispatch({
+                type: REMOVE_MSGS
+            });
+        }, 2000);
     }
 }
+/*
+const expenseOperationMsgs = (msgs) => {
+    return (dispatch) => {
+        dispatch({
+            type: EXPENSE_OPERATION_MESSAGE,
+            payload: msgs
+        })
+        setTimeout(() => {
+            dispatch({
+                type: REMOVE_MSGS
+            });
+        }, 2000);
+    }
+}
+*/

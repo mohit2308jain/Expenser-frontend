@@ -8,43 +8,59 @@ const required = (val) => {
    return (val && val.length);
 }
 
-class UpdateForm extends React.Component {
+class ExpenseForm extends React.Component {
 
     state = {
         isUpdateModalOpen: false
     }
 
-  toggleUpdateModal = () => {
+  toggleModal = () => {
     this.setState({
       isUpdateModalOpen: !this.state.isUpdateModalOpen
     });
   }
 
-  handleUpdate = (values) => {
-    this.props.onUpdate(values);
-    this.toggleUpdateModal();
+  handleSubmit = (values) => {
+    this.props.onSubmit(values);
+    this.toggleModal();
   }
   
   render() {
-    const d = this.props.expense;
-    const da = new Date(Date.parse(d.expense_date)).toLocaleDateString('en-IN',{month:"2-digit",day:"2-digit",year:"numeric"}).split( '/' ).reverse( ).join( '-' );    
+    const action = this.props.action;
+
+    let expense, expenseDate;
+    if(!this.props.expense){
+      expense={
+        "category": "Grocery"
+      }
+    }
+    else{
+      expense = this.props.expense;
+      expenseDate = new Date(Date.parse(expense.expense_date)).toLocaleDateString('en-IN',{month:"2-digit",day:"2-digit",year:"numeric"}).split( '/' ).reverse( ).join( '-' );
+    }
 
     return (
 
       <React.Fragment>
-        <i className="fa fa-pencil" onClick={() => this.toggleUpdateModal()}/>
+        {(action==='Add' ? 
+          (<Button color="success" outline 
+            className="m-1 font-weight-bold"
+            onClick={() => this.toggleModal()}>
+              Add Expense</Button>) : 
+            <i className="fa fa-pencil" onClick={() => this.toggleModal()}/>)
+        }
 
-        <Modal isOpen={this.state.isUpdateModalOpen} toggle={this.toggleUpdateModal}  
+        <Modal isOpen={this.state.isUpdateModalOpen} toggle={this.toggleModal}  
                 className="modal-dialog modal-dialog-centered text-light text-center">
-                <ModalHeader toggle={this.toggleUpdateModal} className="border border-light modalHeader">
-                    Update Expense</ModalHeader>
+                <ModalHeader toggle={this.toggleModal} className="border border-light modalHeader">
+                    {action} Expense</ModalHeader>
                 <ModalBody className="border border-light modalBody">
-                <LocalForm onSubmit={(values) => this.handleUpdate(values)}>
+                <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
 
                     <div className="form-group">
                     <Label htmlFor="category">Category</Label>
                     <Control.select model=".category" name="category"
-                        className="form-control" defaultValue={d.category}>
+                        className="form-control" defaultValue={expense.category}>
                         <option>Grocery</option>
                         <option>Work</option>
                         <option>Shopping</option>
@@ -56,7 +72,7 @@ class UpdateForm extends React.Component {
                     <Label htmlFor="name">Expense Name</Label>
                     <Control.text model=".name" id="name"
                         name="name" placeholder="Enter Expense Name"
-                        className="form-control" defaultValue={d.name} 
+                        className="form-control" defaultValue={expense.name} 
                         validators={{ required: required }}
                     />
 
@@ -70,7 +86,7 @@ class UpdateForm extends React.Component {
                     <div className="form-group">
                     <Label htmlFor="amt">Amount</Label>
                     <Control.input type="number" model=".amt" id="amt"
-                        name="amt" placeholder="Enter Amount" defaultValue={d.amount}
+                        name="amt" placeholder="Enter Amount" defaultValue={expense.amount}
                         className="form-control" 
                         validators={{ required }}
                     />
@@ -84,7 +100,7 @@ class UpdateForm extends React.Component {
                     <div className="form-group">
                     <Label htmlFor="date">Date</Label>
                     <Control type="date" model=".date" id="date"
-                        name="date" className="form-control" defaultValue={da}
+                        name="date" className="form-control" defaultValue={expenseDate}
                         validators={{ required}} />
 
                     <Errors className="text-danger alert alert-danger mt-1 font-weight-bold"
@@ -95,7 +111,7 @@ class UpdateForm extends React.Component {
 
                     <Button type="submit" value="submit" color="primary" outline className="m-1">
                         Submit</Button>
-                    <Button type="button" color="danger" outline onClick={() => this.toggleUpdateModal()} 
+                    <Button type="button" color="danger" outline onClick={() => this.toggleModal()} 
                     className="m-1">Close</Button>
                                 
                 </LocalForm>
@@ -107,4 +123,4 @@ class UpdateForm extends React.Component {
   }
 }
 
-export default UpdateForm;
+export default ExpenseForm;

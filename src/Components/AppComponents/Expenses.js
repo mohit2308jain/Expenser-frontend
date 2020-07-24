@@ -3,6 +3,7 @@ import { Button, Label, Modal, ModalBody, ModalHeader, Jumbotron } from 'reactst
 import { Control, LocalForm, Errors } from 'react-redux-form';
 
 import ExpenseTable from './ExpenseTable';
+import ExpenseForm from './ExpenseForm';
 import './ModalForm.css';
 
 const required = (val) => {
@@ -12,14 +13,7 @@ const required = (val) => {
 class Expenses extends React.Component{
 
     state = {
-        isModalOpen: false,
         isBudgetModalOpen: false
-    }
-    
-    toggleModal = () => {
-        this.setState({
-            isModalOpen: !this.state.isModalOpen
-        });
     }
 
     toggleBudgetModal = () => {
@@ -34,7 +28,6 @@ class Expenses extends React.Component{
     }
       
     handleAddExpense = async(values) => {
-        this.toggleModal();
         await this.props.onAddExpense(values);
     }
 
@@ -76,11 +69,10 @@ class Expenses extends React.Component{
                         <h5>{balance}</h5>
                     </div>
                     <div className="col-12 col-md-2 border border-light p-1">
-                        <Button color="success" outline className="m-1 font-weight-bold"
-                        onClick={() => this.toggleModal()}>Add Expense</Button>
+                        <ExpenseForm action="Add" onSubmit={(values) => this.handleAddExpense(values)} />
                         <br />
                         <Button color="success" outline className="m-1 font-weight-bold"
-                        onClick={() => this.toggleBudgetModal()}>Update Budget</Button>
+                            onClick={() => this.toggleBudgetModal()}>Update Budget</Button>
                     </div>
                 </div>
             </Jumbotron>
@@ -122,72 +114,6 @@ class Expenses extends React.Component{
                 </ModalBody>
             </Modal>
 
-            <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal} 
-                className="modal-dialog modal-dialog-centered text-light text-center">
-                <ModalHeader toggle={this.toggleModal} className="border border-light modalHeader">
-                    Add Expense</ModalHeader>
-                <ModalBody className="border border-light modalBody">
-                <LocalForm onSubmit={(values) => this.handleAddExpense(values)}>
-
-                    <div className="form-group">
-                    <Label htmlFor="category">Category</Label>
-                    <Control.select model=".category" name="category"
-                        className="form-control" defaultValue="Grocery">
-                        <option>Grocery</option>
-                        <option>Work</option>
-                        <option>Shopping</option>
-                        <option>Other</option>
-                    </Control.select>
-                    </div>
-
-                    <div className="form-group">
-                    <Label htmlFor="name">Expense Name</Label>
-                    <Control.text model=".name" id="name"
-                        name="name" placeholder="Enter Expense Name"
-                        className="form-control" 
-                        validators={{ required }}
-                    />
-
-                    <Errors className="text-danger alert alert-danger mt-1 font-weight-bold"
-                        model=".name" show="touched"
-                        messages={{ required: 'You must enter a name for the expense.' }}
-                    />
-                    </div>
-
-                    <div className="form-group">
-                    <Label htmlFor="amt">Amount</Label>
-                    <Control.input type="number" model=".amt" id="amt"
-                        name="amt" placeholder="Enter Amount"
-                        className="form-control" 
-                        validators={{ required}}
-                    />
-
-                    <Errors className="text-danger alert alert-danger mt-1 font-weight-bold"
-                        model=".amt" show="touched"
-                        messages={{ required: 'You must enter the amount of the expense.' }}
-                    />
-                    </div>
-
-                    <div className="form-group">
-                    <Label htmlFor="date">Date</Label>
-                    <Control type="date" model=".date" id="date"
-                        name="date" className="form-control"
-                        validators={{ required}} />
-
-                    <Errors className="text-danger alert alert-danger mt-1 font-weight-bold"
-                        model=".date" show="touched"
-                        messages={{ required: 'Required' }}
-                    />
-                    </div>
-
-                    <Button type="submit" value="submit" color="primary" outline className="m-1">
-                        Submit</Button>
-                    <Button type="button" color="danger" outline onClick={() => this.toggleModal()} 
-                    className="m-1">Close</Button>
-                                
-                </LocalForm>
-                </ModalBody>
-            </Modal>
             </React.Fragment>
         )
     }

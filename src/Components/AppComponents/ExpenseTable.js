@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table, Spinner } from 'reactstrap';
 
-import UpdateForm from './UpdateForm';
+import ExpenseForm from './ExpenseForm';
 
 class ExpenseTable extends React.Component { 
 
@@ -54,7 +54,7 @@ class ExpenseTable extends React.Component {
                                         {new Intl.DateTimeFormat('en-IN', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(d.expense_date)))}
                                     </td>
                                     <td>
-                                        <UpdateForm expense={d} onUpdate={(values) => this.handleUpdate(values,d.id)} />
+                                        <ExpenseForm action="Update" expense={d} onSubmit={(values) => this.handleUpdate(values,d.id)} />
                                     </td>
                                     <td><i className="fa fa-trash" 
                                     onClick={(e) => this.handleDelete(e,d.id)}/></td>
@@ -76,9 +76,9 @@ class ExpenseTable extends React.Component {
         }
 
         const msg = this.props.expenseErrMess;
-        let Errmess;
+        let mess;
         if(msg){
-            Errmess=(
+            mess=(
                 <div className="col-12 text-center" style={{borderRadius: '5px'}}>
                     <div className="alert alert-light bg-dark text-light h2">
                         {msg}
@@ -89,7 +89,7 @@ class ExpenseTable extends React.Component {
 
         return(
             <React.Fragment>
-                {Errmess}
+                {mess}
                 {table}
             </React.Fragment>
         )

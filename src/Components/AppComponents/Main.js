@@ -7,7 +7,7 @@ import Expenses from './Expenses';
 import Profile from './Profile';
 import SideNav from '../Layouts/SideNav';
 import Header from '../Layouts/Header';
-import { fetchBudget, fetchExpenses, addExpense, 
+import { fetchBudget, fetchExpenses, addExpense, expensesLoading,
     updateBudget, updateExpense, deleteExpense } from '../../Redux/ActionCreators';
 
 const mapStateToProps = (state) => {
@@ -36,6 +36,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         deleteExpense: (id, userid) => {
             return dispatch(deleteExpense(id, userid));
+        },
+        expensesLoading: () =>{
+            return dispatch(expensesLoading());
         }
     })
 }
