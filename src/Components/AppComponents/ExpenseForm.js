@@ -5,8 +5,13 @@ import { Button, Label, Modal, ModalBody, ModalHeader } from 'reactstrap';
 import './ModalForm.css';
 
 const required = (val) => {
-   return (val && val.length);
+    return (val && val.length);
 }
+
+const categoryRequired = (val) => {
+    return (val !== "Select Category")
+}
+
 
 class ExpenseForm extends React.Component {
 
@@ -31,7 +36,7 @@ class ExpenseForm extends React.Component {
     let expense, expenseDate;
     if(!this.props.expense){
       expense={
-        "category": "Grocery"
+        category: "Select Category"
       }
     }
     else{
@@ -60,12 +65,19 @@ class ExpenseForm extends React.Component {
                     <div className="form-group">
                     <Label htmlFor="category">Category</Label>
                     <Control.select model=".category" name="category"
-                        className="form-control" defaultValue={expense.category}>
-                        <option>Grocery</option>
-                        <option>Work</option>
-                        <option>Shopping</option>
-                        <option>Other</option>
+                        className="form-control" defaultValue={expense.category}
+                        validators={{ required: categoryRequired }} >
+                          <option>Select Category</option>
+                          <option>Grocery</option>
+                          <option>Work</option>
+                          <option>Shopping</option>
+                          <option>Other</option>
                     </Control.select>
+
+                    <Errors className="text-danger alert alert-danger mt-1 font-weight-bold"
+                        model=".category" show="touched"
+                        messages={{ required: 'You must select the category of expense.' }}
+                    />
                     </div>
 
                     <div className="form-group">
