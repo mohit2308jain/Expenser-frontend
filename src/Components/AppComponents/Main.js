@@ -136,8 +136,10 @@ class Main extends React.Component{
                         errMess={this.props.expenses.errMess}
                         expenseErrMess={this.props.expenses.expenseErrMess} /> } />
 
-                <Route exact path='/profile' component={() => <Profile user={this.props.user} 
-                        budget={this.props.budget.budget} /> } />
+                <Route exact path='/profile' component={() => <Profile 
+                        user={this.props.user} 
+                        budget={this.props.budget.budget}
+                        onUpdateBudget={(values) => this.updateBudget(values)} /> } />
 
                 <Redirect to='/expenses' />
             </Switch>

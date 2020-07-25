@@ -2,11 +2,11 @@ import React from 'react';
 import { Table, Spinner } from 'reactstrap';
 
 import ExpenseForm from './ExpenseForm';
+import DeleteModal from './DeleteModal';
 
 class ExpenseTable extends React.Component { 
 
-    handleDelete = async(e,id) => {
-        e.preventDefault();
+    handleDelete = async(id) => {
         await this.props.onDelete(id);
     }
 
@@ -56,8 +56,9 @@ class ExpenseTable extends React.Component {
                                     <td>
                                         <ExpenseForm action="Update" expense={d} onSubmit={(values) => this.handleUpdate(values,d.id)} />
                                     </td>
-                                    <td><i className="fa fa-trash" 
-                                    onClick={(e) => this.handleDelete(e,d.id)}/></td>
+                                    <td>
+                                        <DeleteModal expense={d} onSubmit={(id) => this.handleDelete(id)} />
+                                    </td>
                                 </tr>
                             )})
                         }

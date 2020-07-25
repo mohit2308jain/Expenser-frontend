@@ -1,29 +1,13 @@
 import React from 'react';
-import { Button, Label, Modal, ModalBody, ModalHeader, Jumbotron } from 'reactstrap';
-import { Control, LocalForm, Errors } from 'react-redux-form';
+import { Jumbotron } from 'reactstrap';
 
 import ExpenseTable from './ExpenseTable';
 import ExpenseForm from './ExpenseForm';
-import './ModalForm.css';
-
-const required = (val) => {
-   return (val && val.length);
-}
+import BudgetForm from './BudgetForm';
 
 class Expenses extends React.Component{
 
-    state = {
-        isBudgetModalOpen: false
-    }
-
-    toggleBudgetModal = () => {
-        this.setState({
-            isBudgetModalOpen: !this.state.isBudgetModalOpen
-        });
-    }
-
     handleUpdateBudget = async(values) => {
-        this.toggleBudgetModal();
         await this.props.onUpdateBudget(values);
     }
       
@@ -71,8 +55,7 @@ class Expenses extends React.Component{
                     <div className="col-12 col-md-2 border border-light p-1">
                         <ExpenseForm action="Add" onSubmit={(values) => this.handleAddExpense(values)} />
                         <br />
-                        <Button color="success" outline className="m-1 font-weight-bold"
-                            onClick={() => this.toggleBudgetModal()}>Update Budget</Button>
+                        <BudgetForm budget={budget} onSubmit={(values) => this.handleUpdateBudget(values)} />
                     </div>
                 </div>
             </Jumbotron>
@@ -83,36 +66,6 @@ class Expenses extends React.Component{
                 onDelete={(id) => this.handleDelete(id)}
                 errMess={this.props.errMess}
                 expenseErrMess={this.props.expenseErrMess} />
-
-            <Modal isOpen={this.state.isBudgetModalOpen} toggle={this.toggleBudgetModal} 
-                className="modal-dialog modal-dialog-centered text-light text-center">
-                <ModalHeader toggle={this.toggleBudgetModal}  className="border border-light modalHeader">
-                    Update Budget</ModalHeader>
-                <ModalBody className="border border-light modalBody">
-                <LocalForm onSubmit={(values) => this.handleUpdateBudget(values)}>
-
-                    <div className="form-group">
-                        <Label htmlFor="budget">Budget</Label>
-                        <Control.input type="number" model=".budget" id="budget"
-                            name="budget" placeholder="Enter Budget" defaultValue={budget}
-                            className="form-control" 
-                            validators={{ required }}
-                    />
-
-                    <Errors className="text-danger alert alert-danger mt-1 font-weight-bold"
-                        model=".budget" show="touched"
-                        messages={{ required: 'You must enter the amount for the budget.' }}
-                    />
-                    </div>
-
-                    <Button type="submit" value="submit" color="primary" outline className="m-1">
-                        Submit</Button>
-                    <Button type="button" color="danger" outline onClick={() => this.toggleBudgetModal()} className="m-1">
-                        Close</Button>
-
-                </LocalForm>
-                </ModalBody>
-            </Modal>
 
             </React.Fragment>
         )

@@ -1,7 +1,14 @@
 import React from 'react';
 import { Card, CardHeader, CardBody } from 'reactstrap';
 
-const Profile = ({ user, budget }) => {
+import BudgetForm from './BudgetForm';
+
+const Profile = ({ user, budget, onUpdateBudget}) => {
+
+    const handleUpdateBudget = async(values) => {
+        await onUpdateBudget(values);
+    }
+
     return(
         <React.Fragment>
             <Card className="text-center border border-light" style={{background: '#111'}}>
@@ -36,6 +43,7 @@ const Profile = ({ user, budget }) => {
                             <p className="list-group-item bg-dark text-light">{budget}</p>
                         </div>            
                     </div>
+                    <BudgetForm budget={budget} onSubmit={(values) => handleUpdateBudget(values)} />
                 </CardBody>
             </Card>
         </React.Fragment>
