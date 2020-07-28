@@ -9,62 +9,48 @@ const handleLogout = (event) => {
     window.location = '/';
 }
 
-class Header extends React.Component {
-    constructor(props) {
-        super(props);
+const Header = () => {
 
-        this.toggleNav = this.toggleNav.bind(this);
-        this.state = {
-            isNavOpen: false,
-        };
-    }
+    const [isNavOpen, toggleNav] = React.useState(false);
 
-    closeNavBar = (event) => {
-        this.setState({isNavOpen: false})
-    }
+    return(
+        <div>
+            <Navbar dark className="border-bottom border-white">
+                <NavbarBrand className="mr-auto">
+                    <div onClick={() => window.open('https://mohitjain.now.sh', "_blank")}>Mohit Jain</div>
+                </NavbarBrand>
 
-    toggleNav() {
-        this.setState({
-        isNavOpen: !this.state.isNavOpen
-        });
-    }
+                <NavbarToggler onClick={() => toggleNav(!isNavOpen)} />
+                <Collapse isOpen={isNavOpen} navbar>
+                    <Nav navbar>
+                        <NavItem>
+                            <NavLink className="nav-link" to='/expenses' 
+                                onClick={() => toggleNav(!isNavOpen)}>
+                                <span className="fa fa-th-list"></span> Expenses</NavLink>
+                        </NavItem>
 
-    render() {
-        return(
-            <div>
-                <Navbar dark className="border-bottom border-white">
-                    <NavbarBrand className="mr-auto">
-                        <div onClick={() => window.open('https://mohitjain.now.sh', "_blank")}>Mohit Jain</div>
-                    </NavbarBrand>
+                        <NavItem>
+                            <NavLink className="nav-link" to='/stats' 
+                                onClick={() => toggleNav(!isNavOpen)}>
+                                <span className="fa fa-pie-chart"></span> Stats</NavLink>
+                        </NavItem>
+                        
+                        <NavItem>
+                            <NavLink className="nav-link" to='/profile' 
+                                onClick={() => toggleNav(!isNavOpen)}>
+                                <span className="fa fa-user-circle-o"></span> Profile</NavLink>
+                        </NavItem>
 
-                    <NavbarToggler onClick={this.toggleNav} />
-                    <Collapse isOpen={this.state.isNavOpen} navbar>
-                        <Nav navbar>
-                            <NavItem>
-                                <NavLink className="nav-link" to='/expenses' onClick={(event) => this.closeNavBar(event)}>
-                                    <span className="fa fa-th-list"></span> Expenses</NavLink>
-                            </NavItem>
+                        <NavItem>
+                            <div className="nav-link" onClick={(e) => handleLogout(e)}>
+                                <span className="fa fa-sign-out"></span> Logout</div>
+                        </NavItem>
+                    </Nav>
+                </Collapse>
+            </Navbar>
+        </div>
+    );
 
-                            <NavItem>
-                                <NavLink className="nav-link" to='/stats' onClick={(event) => this.closeNavBar(event)}>
-                                    <span className="fa fa-pie-chart"></span> Stats</NavLink>
-                            </NavItem>
-                            
-                            <NavItem>
-                                <NavLink className="nav-link" to='/profile' onClick={(event) => this.closeNavBar(event)}>
-                                    <span className="fa fa-user-circle-o"></span> Profile</NavLink>
-                            </NavItem>
-
-                            <NavItem>
-                                <div className="nav-link" onClick={(e) => handleLogout(e)}>
-                                    <span className="fa fa-sign-out"></span> Logout</div>
-                            </NavItem>
-                        </Nav>
-                    </Collapse>
-                </Navbar>
-            </div>
-        );
-    }
 }
 
 export default Header;

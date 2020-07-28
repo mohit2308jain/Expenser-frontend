@@ -1,52 +1,33 @@
 import React from 'react';
-import { Spinner } from 'reactstrap';
 
 import Main from './Components/AppComponents/Main';
 import Login from './Components/AuthComponents/Login';
 
-class App extends React.Component {
+const App = () => {
 
-  state = {
-    token: localStorage.login,
-    isLoggedIn: false,
-    user : localStorage.user
-  }
+    const [user, setUser] = React.useState(localStorage.user);
 
-  componentDidMount(){
-    if(localStorage.login !== undefined && localStorage.user !== undefined){
-      this.setState({token: localStorage.login, user: localStorage.user, isLoggedIn: true});
-    }
-  }
+    React.useEffect(() => {
+        if(localStorage.login !== undefined && localStorage.user !== undefined){
+            setUser(localStorage.user);
+        }
+    }, [])
 
-  LoggedIn = (user) => {
-    this.setState({token: localStorage.login, user: localStorage.user, isLoggedIn: true});
-  }
-
-  render(){
-    const user = (this.state.user) ? JSON.parse(this.state.user) : undefined;
+    const userDetails = (user) ? JSON.parse(user) : undefined;
     let screen;
 
-    if(!this.state.isLoggedIn){
-      screen = <Login onLogin={(user) => this.LoggedIn(user)}/>
+    if(user === undefined){
+        screen = <Login onLogin={() => setUser(localStorage.user)}/>
     }
-    else if(this.state.isLoggedIn){
-      screen = <Main user={user.user}/>
-    }
-    else{
-      screen = (
-        <div className="container">
-          <Spinner style={{ width: '3rem', height: '3rem' }} />
-          <h1>Loading..</h1>
-        </div>
-      )
+    else if(user){
+        screen = <Main user={userDetails.user}/>
     }
 
     return(
-      <React.Fragment>
-        {screen}
-      </React.Fragment>
+        <React.Fragment>
+            {screen}
+        </React.Fragment>
     )
-  }
 }
 
 export default App;

@@ -1,47 +1,39 @@
 import React from 'react';
 import { Modal, ModalBody, ModalHeader, ModalFooter, Button } from 'reactstrap';
 
-class DeleteModal extends React.Component{
+const DeleteModal = (props) => {
 
-    state={
-        isDeleteModalOpen: false
+    const [isDeleteModalOpen, toggleDeleteModal] = React.useState(false);
+
+    const handleDelete = (id) => {
+        toggleDeleteModal(!isDeleteModalOpen);
+        props.onSubmit(id);
     }
 
-    toggleDeleteModal = () => {
-        this.setState({isDeleteModalOpen: !this.state.isDeleteModalOpen});
-    }
+    const expense = props.expense;
 
-    handleDelete = (id) => {
-        this.toggleDeleteModal()
-        this.props.onSubmit(id);
-    }
+    return(
+        <React.Fragment>
+            <i className="fa fa-trash" onClick={() => toggleDeleteModal(!isDeleteModalOpen)}/>
 
-    render(){
-        const expense = this.props.expense;
+            <Modal isOpen={isDeleteModalOpen} toggle={() => toggleDeleteModal(!isDeleteModalOpen)} 
+                className="modal-dialog modal-dialog-centered text-light text-center">
+                
+                <ModalHeader toggle={() => toggleDeleteModal(!isDeleteModalOpen)}  className="border border-light modalHeader">
+                    Delete Expense</ModalHeader>
+                
+                <ModalBody className="border border-light modalBody">
+                    <h4>Are you sure you want to delete expense: {expense.name} ?</h4>
+                </ModalBody>
+                
+                <ModalFooter className="border border-light modalHeader">
+                    <Button color="danger" outline onClick={() => handleDelete(expense.id)}>Delete</Button>
+                    <Button color="primary" outline onClick={() => toggleDeleteModal(!isDeleteModalOpen)}>Close</Button>
+                </ModalFooter>
+            </Modal>
 
-        return(
-            <React.Fragment>
-                <i className="fa fa-trash" onClick={() => this.toggleDeleteModal()}/>
-
-                <Modal isOpen={this.state.isDeleteModalOpen} toggle={this.toggleDeleteModal} 
-                    className="modal-dialog modal-dialog-centered text-light text-center">
-                    
-                    <ModalHeader toggle={this.toggleDeleteModal}  className="border border-light modalHeader">
-                        Delete Expense</ModalHeader>
-                    
-                    <ModalBody className="border border-light modalBody">
-                        <h4>Are you sure you want to delete expense: {expense.name} ?</h4>
-                    </ModalBody>
-                    
-                    <ModalFooter className="border border-light modalHeader">
-                        <Button color="danger" outline onClick={() => this.handleDelete(expense.id)}>Delete</Button>
-                        <Button color="primary" outline onClick={() => this.toggleDeleteModal()}>Close</Button>
-                    </ModalFooter>
-                </Modal>
-
-            </React.Fragment>
-        )
-    }
+        </React.Fragment>
+    )
 }
 
 export default DeleteModal;
